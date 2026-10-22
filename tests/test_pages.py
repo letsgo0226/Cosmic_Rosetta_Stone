@@ -74,8 +74,8 @@ class PagesTests(unittest.TestCase):
         found, videos = fetch_recent_rss('777alaje', opener=opener)
         self.assertEqual(found, channel)
         self.assertEqual([v['id'] for v in videos], ['AAAAAAAAAAA'])
-        self.assertEqual(len(urls), 2)
-        self.assertTrue(urls[1].startswith('https://www.youtube.com/feeds/videos.xml?'))
+        self.assertEqual(len(urls), 3)
+        self.assertTrue(urls[2].startswith('https://www.youtube.com/feeds/videos.xml?'))
 
     def test_rss_feed_mismatch_is_rejected(self):
         from scripts.build_pages import fetch_recent_rss
@@ -126,6 +126,46 @@ class PagesTests(unittest.TestCase):
         from scripts.build_pages import fetch_recent_rss
         with self.assertRaises(ValueError):
             fetch_recent_rss('evil/../../../bad')
+
+    def test_official_legacy_username_rss_without_api_key(self):
+        from scripts.build_pages import fetch_recent_rss
+        channel = 'UC' + 'a' * 22
+        urls = []
+        legacy_feed = (
+            '<feed xmlns="http://www.w3.org/2005/Atom" '
+            'xmlns:yt="http://www.youtube.com/xml/schemas/2015">'
+            '<title>777ALAJE</title>'
+            f'<yt:channelId>{channel}</yt:channelId>'
+            '<entry><yt:videoId>CCCCCCCCCCC</yt:videoId>'
+            '<title>Cosmic Love Episode</title></entry></feed>'
+        )
+        def opener(request, timeout):
+            urls.append(request.full_url)
+            return FakeResponse(legacy_feed.encode())
+        found, videos = fetch_recent_rss('777alaje', opener=opener)
+        self.assertEqual(found, channel)
+        self.assertEqual(videos[0]['title'], 'Cosmic Love Episode')
+        self.assertEqual(len(urls), 1)
+        self.assertIn('user=777alaje', urls[0])
+
+    def test_legacy_username_spoof_is_not_accepted(self):
+        from scripts.build_pages import fetch_recent_rss
+        wrong_id = 'UC' + 'b'*22
+        fake = (
+            '<feed xmlns="http://www.w3.org/2005/Atom" '
+            'xmlns:yt="http://www.youtube.com/xml/schemas/2015">'
+            f'<title>Other Channel</title><yt:channelId>{wrong_id}</yt:channelId>'
+            '<entry><yt:videoId>ZZZZZZZZZZZ</yt:videoId><title>Wrong</title></entry></feed>'
+        ).encode()
+        def opener(request, timeout):
+            if '?user=' in request.full_url:
+                return FakeResponse(fake)
+            if '/@' in request.full_url:
+                return FakeResponse(b'<html>no canonical id</html>')
+            raise AssertionError('Must not fetch feed for another channel')
+        with self.assertRaises(ValueError):
+            fetch_recent_rss('777alaje', opener=opener)
+
 
 
 if __name__=='__main__':
