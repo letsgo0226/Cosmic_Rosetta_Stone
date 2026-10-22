@@ -5,6 +5,7 @@ on:
     paths:
       - 'rosetta777_rosetta_plain_2kb.sh'
       - 'scripts/build_pages.py'
+      - 'scripts/diagnose_rss.py'
       - 'site/index.html'
       - 'tests/test_pages.py'
       - '.github/workflows/rosetta777-pages.yml'
@@ -39,6 +40,9 @@ jobs:
           test "$(wc -c < rosetta777_rosetta_plain_2kb.sh)" -lt 2048
           test "$(wc -l < rosetta777_rosetta_plain_2kb.sh)" -eq 1
           sh -n rosetta777_rosetta_plain_2kb.sh
+      - name: Diagnose public YouTube identity (PR only)
+        if: github.event_name == 'pull_request'
+        run: python3 scripts/diagnose_rss.py
       - name: Build offline version (always works)
         run: python3 scripts/build_pages.py --out public
       - name: Sync public YouTube metadata via API or recent RSS
