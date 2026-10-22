@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://letsgo0226.github.io/Cosmic_Rosetta_Stone/data/index.schema.json",
+  "title": "Rosetta777 public video metadata index",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "generated_at",
+    "sync_status",
+    "coverage",
+    "channel_handle",
+    "channel_id",
+    "core",
+    "count",
+    "videos"
+  ],
+  "properties": {
+    "schema": {
+      "const": "rosetta777.static.v1"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "sync_status": {
+      "enum": [
+        "not_configured",
+        "api_completed",
+        "rss_recent",
+        "rss_unavailable",
+        "missing_key"
+      ]
+    },
+    "coverage": {
+      "enum": [
+        "none",
+        "recent_only",
+        "public_uploads"
+      ]
+    },
+    "channel_handle": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^@[A-Za-z0-9_.-]+$"
+    },
+    "channel_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^UC[A-Za-z0-9_-]{22}$"
+    },
+    "core": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "bytes",
+        "sha256",
+        "checks"
+      ],
+      "properties": {
+        "bytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2047
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "checks": {
+          "type": "object",
+          "required": [
+            "G257",
+            "U2",
+            "Brainfuck",
+            "ATGC"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "G257": {
+              "type": "boolean"
+            },
+            "U2": {
+              "type": "boolean"
+            },
+            "Brainfuck": {
+              "type": "boolean"
+            },
+            "ATGC": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    "count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "videos": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "title",
+          "g257"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{11}$"
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 500
+          },
+          "g257": {
+            "type": "string",
+            "pattern": "^0x[0-9a-f]+$"
+          }
+        }
+      }
+    }
+  }
+}
