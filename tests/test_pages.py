@@ -167,6 +167,42 @@ class PagesTests(unittest.TestCase):
             fetch_recent_rss('777alaje', opener=opener)
 
 
+    def test_official_entry_only_channel_identity(self):
+        from scripts.build_pages import verified_feed_records, fetch_recent_rss
+        import xml.etree.ElementTree as ET
+        channel = 'UC' + 'a'*22
+        feed = (
+            '<feed xmlns="http://www.w3.org/2005/Atom" '
+            'xmlns:yt="http://www.youtube.com/xml/schemas/2015">'
+            '<title>777ALAJE</title>'
+            f'<entry><yt:channelId>{channel}</yt:channelId>'
+            '<yt:videoId>DDDDDDDDDDD</yt:videoId>'
+            '<title>Episode 15</title></entry></feed>'
+        )
+        records = verified_feed_records(ET.fromstring(feed), channel)
+        self.assertEqual(records[0]['id'], 'DDDDDDDDDDD')
+        def opener(request, timeout):
+            return FakeResponse(feed.encode())
+        found, videos = fetch_recent_rss('777alaje', opener=opener)
+        self.assertEqual(found, channel)
+        self.assertEqual(len(videos), 1)
+
+    def test_entry_owner_disagreement_rejected(self):
+        from scripts.build_pages import verified_feed_records
+        import xml.etree.ElementTree as ET
+        channel = 'UC' + 'a'*22
+        other = 'UC' + 'b'*22
+        feed = (
+            '<feed xmlns="http://www.w3.org/2005/Atom" '
+            'xmlns:yt="http://www.youtube.com/xml/schemas/2015">'
+            f'<yt:channelId>{channel}</yt:channelId>'
+            f'<entry><yt:channelId>{other}</yt:channelId>'
+            '<yt:videoId>EEEEEEEEEEE</yt:videoId></entry></feed>'
+        )
+        with self.assertRaises(ValueError):
+            verified_feed_records(ET.fromstring(feed), channel)
+
+
 
 if __name__=='__main__':
     unittest.main()
