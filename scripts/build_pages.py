@@ -237,6 +237,39 @@ def build(out, channel='', key='', fetcher=fetch_videos, core=CORE,
     (out / 'data' / 'check.json').write_text(
         json.dumps(meta, indent=2) + '\n', encoding='utf-8')
     shutil.copyfile(SITE_HTML, out / 'index.html')
+    site_dir = SITE_HTML.parent
+    shutil.copyfile(site_dir / 'llms.txt', out / 'llms.txt')
+    shutil.copyfile(site_dir / 'data' / 'index.schema.json',
+                    out / 'data' / 'index.schema.json')
+    base = 'https://letsgo0226.github.io/Cosmic_Rosetta_Stone/'
+    manifest = {
+        'name': 'Rosetta777 Public Index',
+        'version': '1.0',
+        'generated_at': now,
+        'access': {'method': 'GET', 'authentication': 'none',
+                   'api_key_required': False, 'requires_internet': True},
+        'links': {
+            'index': base + 'data/index.json',
+            'core_checks': base + 'data/check.json',
+            'schema': base + 'data/index.schema.json',
+            'ai_instructions': base + 'llms.txt',
+            'source': 'https://github.com/letsgo0226/Cosmic_Rosetta_Stone'
+        },
+        'sync_status': status,
+        'coverage': coverage,
+        'channel_id': resolved_channel,
+        'count': len(records),
+        'kernel_sha256': meta['sha256'],
+        'limitations': [
+            'Titles and video IDs are metadata, not transcripts.',
+            'recent_only contains only the latest public RSS uploads.',
+            'G257 addresses do not prove semantic or physical assertions.',
+            'This static service cannot execute Python on demand.'
+        ]
+    }
+    (out / 'data' / 'manifest.json').write_text(
+        json.dumps(manifest, ensure_ascii=False, separators=(',', ':')) + '\n',
+        encoding='utf-8')
     (out / '.nojekyll').write_text('', encoding='utf-8')
     return payload
 
