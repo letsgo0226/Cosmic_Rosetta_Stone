@@ -109,6 +109,33 @@ def fetch_recent_rss(handle, opener=urllib.request.urlopen):
     """
     if not HANDLE.fullmatch(handle):
         raise ValueError('Invalid channel handle')
+    # Older channels sometimes expose their pre-handle username through the
+    # official YouTube RSS feed. Trust it ONLY if YouTube's channel title matches
+    # the requested handle, the canonical ID is valid, and videos are present.
+    legacy_url = ('https://www.youtube.com/feeds/videos.xml?'
+                  + urllib.parse.urlencode({'user': handle}))
+    legacy_request = urllib.request.Request(
+        legacy_url, headers={'User-Agent': 'Rosetta777PublicIndex/1.0'})
+    try:
+        with opener(legacy_request, timeout=15) as response:
+            legacy_root = ET.fromstring(response.read(2000000))
+        legacy_id = legacy_root.findtext(YT + 'channelId') or ''
+        legacy_title = legacy_root.findtext(ATOM + 'title') or ''
+        channel_name = re.sub(r'[^a-z0-9]', '', legacy_title.casefold())
+        handle_name = re.sub(r'[^a-z0-9]', '', handle.casefold())
+        if CHANNEL_ID.fullmatch(legacy_id) and channel_name == handle_name:
+            records = []
+            known = set()
+            for entry in legacy_root.findall(ATOM + 'entry'):
+                vid = entry.findtext(YT + 'videoId') or ''
+                if VIDEO_ID.fullmatch(vid) and vid not in known:
+                    records.append(record(vid, entry.findtext(ATOM + 'title') or ''))
+                    known.add(vid)
+            if records:
+                return legacy_id, records
+    except (urllib.error.URLError, TimeoutError, ValueError, ET.ParseError, OSError):
+        pass  # Legacy username lookup may not be supported; try current @handle.
+
     url = 'https://www.youtube.com/@' + urllib.parse.quote(handle)
     req = urllib.request.Request(url, headers={
         'User-Agent': 'Mozilla/5.0 (compatible; Rosetta777PublicIndex/1.0)'})
@@ -167,7 +194,7 @@ def build(out, channel='', key='', fetcher=fetch_videos, core=CORE,
             status, coverage = 'rss_recent', 'recent_only'
         except (ValueError, RuntimeError, urllib.error.URLError, TimeoutError, ET.ParseError, OSError) as exc:
             # Expected restricted connectivity is not a reason to publish fake records.
-            print('RSS recent sync unavailable:', type(exc).__name__)
+            print('RSS recent sync unavailable:', type(exc).__name__, str(exc) if isinstance(exc, ValueError) else '')
             status, coverage = 'rss_unavailable', 'none'
     elif channel:
         status = 'missing_key'
