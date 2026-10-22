@@ -41,17 +41,13 @@ jobs:
           sh -n rosetta777_rosetta_plain_2kb.sh
       - name: Build offline version (always works)
         run: python3 scripts/build_pages.py --out public
-      - name: Fetch optional public YouTube metadata
+      - name: Sync public YouTube metadata via API or recent RSS
         if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         env:
           YT_KEY: ${{ secrets.YT_KEY }}
           YT_ID: ${{ vars.YT_ID }}
-        run: |
-          if [ -n "$YT_KEY" ] && [ -n "$YT_ID" ]; then
-            python3 scripts/build_pages.py --out public
-          else
-            echo 'YouTube sync disabled: configure YT_KEY secret and YT_ID variable.'
-          fi
+          YT_HANDLE: 777alaje
+        run: python3 scripts/build_pages.py --out public
       - name: Configure Pages
         if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         uses: actions/configure-pages@v5
