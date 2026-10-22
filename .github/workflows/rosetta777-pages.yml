@@ -5,6 +5,10 @@ on:
     paths:
       - 'rosetta777_rosetta_plain_2kb.sh'
       - 'scripts/build_pages.py'
+      - 'site/llms.txt'
+      - 'site/data/index.schema.json'
+      - 'tests/test_ai_access.py'
+      - 'examples/read_public.py'
       - 'site/index.html'
       - 'tests/test_pages.py'
       - '.github/workflows/rosetta777-pages.yml'
@@ -13,6 +17,10 @@ on:
     paths:
       - 'rosetta777_rosetta_plain_2kb.sh'
       - 'scripts/build_pages.py'
+      - 'site/llms.txt'
+      - 'site/data/index.schema.json'
+      - 'tests/test_ai_access.py'
+      - 'examples/read_public.py'
       - 'site/index.html'
       - 'tests/test_pages.py'
       - '.github/workflows/rosetta777-pages.yml'
