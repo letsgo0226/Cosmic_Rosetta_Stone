@@ -1,0 +1,77 @@
+name: Rosetta777 — verify and publish static index
+
+on:
+  pull_request:
+    paths:
+      - 'rosetta777_rosetta_plain_2kb.sh'
+      - 'scripts/build_pages.py'
+      - 'site/index.html'
+      - 'tests/test_pages.py'
+      - '.github/workflows/rosetta777-pages.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'rosetta777_rosetta_plain_2kb.sh'
+      - 'scripts/build_pages.py'
+      - 'site/index.html'
+      - 'tests/test_pages.py'
+      - '.github/workflows/rosetta777-pages.yml'
+  workflow_dispatch:
+  schedule:
+    - cron: '23 */6 * * *'  # UTC, approximate; schedules can be delayed
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rosetta777-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify tests and source
+        run: |
+          python3 -m unittest discover -s tests -v
+          test "$(wc -c < rosetta777_rosetta_plain_2kb.sh)" -lt 2048
+          test "$(wc -l < rosetta777_rosetta_plain_2kb.sh)" -eq 1
+          sh -n rosetta777_rosetta_plain_2kb.sh
+      - name: Build offline version (always works)
+        run: python3 scripts/build_pages.py --out public
+      - name: Fetch optional public YouTube metadata
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        env:
+          YT_KEY: ${{ secrets.YT_KEY }}
+          YT_ID: ${{ vars.YT_ID }}
+        run: |
+          if [ -n "$YT_KEY" ] && [ -n "$YT_ID" ]; then
+            python3 scripts/build_pages.py --out public
+          else
+            echo 'YouTube sync disabled: configure YT_KEY secret and YT_ID variable.'
+          fi
+      - name: Configure Pages
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        uses: actions/configure-pages@v5
+      - name: Upload Pages artifact
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: public
+
+  deploy:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
