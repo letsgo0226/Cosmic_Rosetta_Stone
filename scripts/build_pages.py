@@ -101,6 +101,36 @@ def fetch_videos(channel, key, opener=urllib.request.urlopen, max_pages=100):
     raise RuntimeError('YouTube playlist exceeds the 100-page safety bound')
 
 
+
+def verified_feed_records(root, channel):
+    """Verify a video's owner using either feed or per-entry canonical IDs."""
+    if root.tag != ATOM + 'feed':
+        raise ValueError('Unexpected Atom feed root')
+    entries = root.findall(ATOM + 'entry')
+    root_channel = root.findtext(YT + 'channelId') or ''
+    atom_id = root.findtext(ATOM + 'id') or ''
+    owners = [e.findtext(YT + 'channelId') or '' for e in entries]
+    if root_channel and root_channel != channel:
+        raise ValueError('Root channel ID does not match expected channel')
+    if atom_id.startswith('yt:channel:') and atom_id != 'yt:channel:' + channel:
+        raise ValueError('Atom channel ID does not match expected channel')
+    if any(owner and owner != channel for owner in owners):
+        raise ValueError('Video entry belongs to another channel')
+    if not (root_channel == channel or atom_id == 'yt:channel:' + channel
+            or channel in owners):
+        raise ValueError('RSS feed has no matching canonical channel identity')
+    videos, seen = [], set()
+    for entry in entries:
+        vid = entry.findtext(YT + 'videoId') or ''
+        if VIDEO_ID.fullmatch(vid) and vid not in seen:
+            videos.append(record(vid, entry.findtext(ATOM + 'title') or ''))
+            seen.add(vid)
+    if not videos:
+        raise ValueError('Official RSS returned no public videos')
+    return videos
+
+
+
 def fetch_recent_rss(handle, opener=urllib.request.urlopen):
     """Best-effort public RSS; only the latest ~15, not a complete history.
 
@@ -119,20 +149,15 @@ def fetch_recent_rss(handle, opener=urllib.request.urlopen):
     try:
         with opener(legacy_request, timeout=15) as response:
             legacy_root = ET.fromstring(response.read(2000000))
-        legacy_id = legacy_root.findtext(YT + 'channelId') or ''
+        legacy_entries = legacy_root.findall(ATOM + 'entry')
+        legacy_id = (legacy_root.findtext(YT + 'channelId') or
+                     (legacy_entries[0].findtext(YT + 'channelId') if legacy_entries else '') or
+                     (legacy_root.findtext(ATOM + 'id') or '').removeprefix('yt:channel:'))
         legacy_title = legacy_root.findtext(ATOM + 'title') or ''
         channel_name = re.sub(r'[^a-z0-9]', '', legacy_title.casefold())
         handle_name = re.sub(r'[^a-z0-9]', '', handle.casefold())
         if CHANNEL_ID.fullmatch(legacy_id) and channel_name == handle_name:
-            records = []
-            known = set()
-            for entry in legacy_root.findall(ATOM + 'entry'):
-                vid = entry.findtext(YT + 'videoId') or ''
-                if VIDEO_ID.fullmatch(vid) and vid not in known:
-                    records.append(record(vid, entry.findtext(ATOM + 'title') or ''))
-                    known.add(vid)
-            if records:
-                return legacy_id, records
+            return legacy_id, verified_feed_records(legacy_root, legacy_id)
     except (urllib.error.URLError, TimeoutError, ValueError, ET.ParseError, OSError):
         pass  # Legacy username lookup may not be supported; try current @handle.
 
@@ -159,20 +184,7 @@ def fetch_recent_rss(handle, opener=urllib.request.urlopen):
     with opener(request, timeout=15) as response:
         xml = response.read(2000000)
     root = ET.fromstring(xml)
-    stated_channel = root.findtext(YT + 'channelId')
-    if stated_channel != channel:
-        raise ValueError('RSS feed channel ID does not match channel page')
-    videos = []
-    seen = set()
-    for entry in root.findall(ATOM + 'entry'):
-        vid = entry.findtext(YT + 'videoId') or ''
-        if not VIDEO_ID.fullmatch(vid) or vid in seen:
-            continue
-        seen.add(vid)
-        videos.append(record(vid, entry.findtext(ATOM + 'title') or ''))
-    if not videos:
-        raise ValueError('Official RSS returned no public videos')
-    return channel, videos
+    return channel, verified_feed_records(root, channel)
 
 
 def build(out, channel='', key='', fetcher=fetch_videos, core=CORE,
