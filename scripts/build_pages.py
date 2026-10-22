@@ -102,21 +102,34 @@ def fetch_videos(channel, key, opener=urllib.request.urlopen, max_pages=100):
 
 
 
+
+def canonical_youtube_channel_id(value):
+    """YouTube Atom feed roots use the 22-char ID without the 'UC' prefix."""
+    if CHANNEL_ID.fullmatch(value):
+        return value
+    if re.fullmatch(r'[A-Za-z0-9_-]{22}\Z', value):
+        return 'UC' + value
+    return value
+
+
 def verified_feed_records(root, channel):
     """Verify a video's owner using either feed or per-entry canonical IDs."""
     if root.tag != ATOM + 'feed':
         raise ValueError('Unexpected Atom feed root')
     entries = root.findall(ATOM + 'entry')
-    root_channel = root.findtext(YT + 'channelId') or ''
+    root_channel = canonical_youtube_channel_id(root.findtext(YT + 'channelId') or '')
     atom_id = root.findtext(ATOM + 'id') or ''
-    owners = [e.findtext(YT + 'channelId') or '' for e in entries]
+    atom_channel = (canonical_youtube_channel_id(atom_id[len('yt:channel:'):])
+                    if atom_id.startswith('yt:channel:') else '')
+    owners = [canonical_youtube_channel_id(e.findtext(YT + 'channelId') or '')
+              for e in entries]
     if root_channel and root_channel != channel:
         raise ValueError('Root channel ID does not match expected channel')
-    if atom_id.startswith('yt:channel:') and atom_id != 'yt:channel:' + channel:
+    if atom_channel and atom_channel != channel:
         raise ValueError('Atom channel ID does not match expected channel')
     if any(owner and owner != channel for owner in owners):
         raise ValueError('Video entry belongs to another channel')
-    if not (root_channel == channel or atom_id == 'yt:channel:' + channel
+    if not (root_channel == channel or atom_channel == channel
             or channel in owners):
         raise ValueError('RSS feed has no matching canonical channel identity')
     videos, seen = [], set()
@@ -150,9 +163,10 @@ def fetch_recent_rss(handle, opener=urllib.request.urlopen):
         with opener(legacy_request, timeout=15) as response:
             legacy_root = ET.fromstring(response.read(2000000))
         legacy_entries = legacy_root.findall(ATOM + 'entry')
-        legacy_id = (legacy_root.findtext(YT + 'channelId') or
-                     (legacy_entries[0].findtext(YT + 'channelId') if legacy_entries else '') or
-                     (legacy_root.findtext(ATOM + 'id') or '').removeprefix('yt:channel:'))
+        legacy_id = canonical_youtube_channel_id(
+            legacy_root.findtext(YT + 'channelId') or
+            (legacy_entries[0].findtext(YT + 'channelId') if legacy_entries else '') or
+            (legacy_root.findtext(ATOM + 'id') or '').removeprefix('yt:channel:'))
         legacy_title = legacy_root.findtext(ATOM + 'title') or ''
         channel_name = re.sub(r'[^a-z0-9]', '', legacy_title.casefold())
         handle_name = re.sub(r'[^a-z0-9]', '', handle.casefold())

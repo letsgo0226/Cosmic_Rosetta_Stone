@@ -203,6 +203,43 @@ class PagesTests(unittest.TestCase):
             verified_feed_records(ET.fromstring(feed), channel)
 
 
+    def test_actual_youtube_atom_22_char_root_id(self):
+        from scripts.build_pages import fetch_recent_rss, verified_feed_records
+        import xml.etree.ElementTree as ET
+        bare = 'LoHjca5L0KJ3i14MvhcroA'
+        canonical = 'UC' + bare
+        official_xml = (
+            '<feed xmlns="http://www.w3.org/2005/Atom" '
+            'xmlns:yt="http://www.youtube.com/xml/schemas/2015">'
+            f'<id>yt:channel:{bare}</id><yt:channelId>{bare}</yt:channelId>'
+            '<title>777ALAJE</title>'
+            f'<entry><yt:channelId>{canonical}</yt:channelId>'
+            '<yt:videoId>FFFFFFFFFFF</yt:videoId>'
+            '<title>Real Format</title></entry></feed>'
+        )
+        def opener(request, timeout):
+            return FakeResponse(official_xml.encode())
+        found, records = fetch_recent_rss('777alaje', opener=opener)
+        self.assertEqual(found, canonical)
+        self.assertEqual(len(records), 1)
+        self.assertEqual(verified_feed_records(ET.fromstring(official_xml), canonical), records)
+
+    def test_youtube_bare_root_owner_mismatch_rejected(self):
+        from scripts.build_pages import verified_feed_records
+        import xml.etree.ElementTree as ET
+        bare = 'LoHjca5L0KJ3i14MvhcroA'
+        other = 'UC' + 'z'*22
+        xml = (
+            '<feed xmlns="http://www.w3.org/2005/Atom" '
+            'xmlns:yt="http://www.youtube.com/xml/schemas/2015">'
+            f'<yt:channelId>{bare}</yt:channelId>'
+            f'<entry><yt:channelId>{other}</yt:channelId>'
+            '<yt:videoId>GGGGGGGGGGG</yt:videoId></entry></feed>'
+        )
+        with self.assertRaises(ValueError):
+            verified_feed_records(ET.fromstring(xml), 'UC' + bare)
+
+
 
 if __name__=='__main__':
     unittest.main()
