@@ -10,6 +10,7 @@
 | TM-002 | 終極舒曼機 Ultimate Schumann Machine | [TM-002](TM-002-Ultimate-Schumann-Machine.md) |
 | TM-003 | 哆啦A夢圖靈機 DTM-22 Dorayaki | [TM-003](TM-003-DTM-22-Dorayaki.md) |
 | TM-004 | Astral Plane Turing Machine APTM-Ω | [TM-004](TM-004-APTM-Omega.md) |
+| TM-005 | Tier_11.sh | [TM-005](TM-005-Tier_11.md) |
 
 ## 未來登錄規則
 
