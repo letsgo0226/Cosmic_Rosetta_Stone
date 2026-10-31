@@ -11,6 +11,7 @@
 | TM-003 | 哆啦A夢圖靈機 DTM-22 Dorayaki | [TM-003](TM-003-DTM-22-Dorayaki.md) |
 | TM-004 | Astral Plane Turing Machine APTM-Ω | [TM-004](TM-004-APTM-Omega.md) |
 | TM-005 | Tier_11.sh | [TM-005](TM-005-Tier_11.md) |
+| TM-006 | Eternity Machine（永恆機）v0.1 — `Eternity_Machine.sh` | [TM-006](TM-006-Eternity-Machine.md) · [程式](Eternity_Machine.sh) |
 
 ## 未來登錄規則
 
