@@ -59,5 +59,23 @@ def verify():
     assert cert["final_tape"] != "X" * (n + 1)
     print(json.dumps({"independent_check": "PASS", "N": n, "steps": steps, "no_sha": True}))
 
+
+def verify_registry():
+    registry_path = ROOT / "永久記憶" / "圖靈機" / "machine_registry.json"
+    registry = json.loads(registry_path.read_text(encoding="utf-8"))
+    assert registry["schema_version"] == 1
+    assert registry["execution_policy"] == "metadata-only; no automatic execution or deployment"
+    entries = registry["entries"]
+    assert len(entries) == 8
+    assert [e["id"] for e in entries] == [f"TM-{i:03d}" for i in range(1, 9)]
+    base = registry_path.parent.resolve()
+    for e in entries:
+        record = (base / e["record"]).resolve()
+        assert record.parent == base, "path traversal in registry"
+        assert record.is_file(), f"missing record: {e['id']}"
+        assert e["available"] is True
+    print(json.dumps({"registry_check": "PASS", "registered_machines": len(entries)}))
+
 if __name__ == "__main__":
     verify()
+    verify_registry()
