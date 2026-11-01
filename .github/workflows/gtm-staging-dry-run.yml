@@ -1,0 +1,35 @@
+name: TM-008 staging dry-run plan
+on:
+  pull_request:
+    paths:
+      - '永久記憶/圖靈機/**'
+      - 'tools/gtm_staging_plan.py'
+      - '.github/workflows/gtm-staging-dry-run.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  staging-plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Generate metadata-only plan
+        run: python3 tools/gtm_staging_plan.py --output staging-plan.json
+      - name: Validate no execution or deployment
+        run: |
+          python3 - <<'PY'
+          import json
+          p=json.load(open("staging-plan.json",encoding="utf-8"))
+          assert p["mode"]=="dry-run" and p["deployment_executed"] is False
+          assert p["prototype_execution"] is False and p["sha_algorithm_used"] is False
+          assert len(p["records"])==8
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tm-008-staging-plan
+          path: staging-plan.json
+          retention-days: 7
