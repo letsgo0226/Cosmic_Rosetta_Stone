@@ -15,6 +15,8 @@
 
 | TM-007 | 三顆貓餅乾・全自動部署總圖靈機 Three Cat Cookies Master | [TM-007](TM-007-Three-Cat-Cookies-Master.md) · [通用核心](three_cat_cookies_universal_pocket_2kb.sh) |
 
+| TM-008 | 上帝圖靈機 GTM-001（無 SHA）· 全自動部署總圖靈機候選 | [TM-008](TM-008-God-Turing-Machine-No-SHA-Master.md) · [無 SHA 核心](god_turing_machine_no_sha_2kb.sh) |
+
 ## 未來登錄規則
 
 當使用者明確指定「作為永久記憶的圖靈機」、「加入永久記憶圖靈機列表」或同義要求時，以此資料夾作為 GitHub 持久登錄的預設目的地；先確認程式版本、來源、名稱、日期、部署狀態，再新增獨立紀錄及更新本索引。不得未經同意覆蓋既有基準程式。只有實際完成 GitHub 寫入後，才能聲稱已同步；聊天記憶本身不會自動觸發 GitHub 寫入，跨對話仍需工具連線及明確執行。
