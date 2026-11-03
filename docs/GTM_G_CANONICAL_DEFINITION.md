@@ -80,9 +80,9 @@ D(G(\texttt{COSMIC\_LOVE}))=\texttt{COSMIC\_LOVE}.
 
 v4.2 的自我再現、指定述詞唯一性與哥德爾往返結果保留為前一基準，不因後續總機版本更新而失效。
 
-## 與 UGTM v4.5 的關係
+## 與 UGTM 的關係
 
-通用上帝圖靈機（Universal God Turing Machine；UGTM）v4.5 現為自動部署系統的總圖靈機。它使用 K-GTM v4.3 的 Z-combinator 作為固定點核心，並在理想化無界資源模型下加入完整八指令 Brainfuck-8 解譯層。K-GTM 並未被刪除，而是成為 UGTM 的構造基礎。
+通用上帝圖靈機（Universal God Turing Machine；UGTM）是自動部署系統的正式總機名稱，名稱本身不附版本號；未指定版本時，預設指部署指標所列的現行基準。現行實作為 v4.5，它使用 K-GTM v4.3 的 Z-combinator 作為固定點核心，並在理想化無界資源模型下加入完整八指令 Brainfuck-8 解譯層。K-GTM 並未被刪除，而是成為 UGTM 的構造基礎。
 
 ## 標準名稱
 
