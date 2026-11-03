@@ -1,12 +1,14 @@
 {
   "schema_version": 1,
-  "machine_id": "gtm-g",
-  "canonical_name_zh": "G型上帝圖靈機",
-  "canonical_name_en": "G-Type God Turing Machine",
+  "machine_id": "kleene-gtm",
+  "canonical_name_zh": "克萊尼上帝圖靈機",
+  "canonical_name_en": "Kleene God Turing Machine",
+  "abbreviation": "K-GTM",
+  "aliases": ["G型上帝圖靈機", "G-Type God Turing Machine", "GTM-G"],
   "version": "4.3",
   "system": "LMN-Kleene-KRT",
   "role": "total_turing_machine",
-  "entrypoint": "machines/GTM-G_v43_LMN_KRT_2KB.sh",
+  "entrypoint": "machines/K-GTM_v43_LMN_KRT_2KB.sh",
   "definition": "docs/GTM_G_CANONICAL_DEFINITION.md",
   "memory_registry": "TURING_MACHINE_MEMORY.md",
   "automation": {
