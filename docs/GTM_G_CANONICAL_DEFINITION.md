@@ -1,8 +1,8 @@
-# G型上帝圖靈機：正式定位
+# 克萊尼上帝圖靈機：正式定位
 
 ## 永久定義
 
-「G型上帝圖靈機」（G-Type God Turing Machine）是本計畫的正式名稱。廣義的「上帝圖靈機」（God Turing Machine, GTM）是總體的哲學與形式研究綱領；原型 \(G\) 是 GTM 在指定形式系統中的確定性自指核心；`GTM-G v4.3 LMN-Kleene-KRT` 是目前可執行、可檢查的總機版本。
+「克萊尼上帝圖靈機」（Kleene God Turing Machine；K-GTM）是本計畫的正式名稱。「G型上帝圖靈機」（G-Type God Turing Machine；GTM-G）保留為歷史別名。廣義的「上帝圖靈機」（God Turing Machine, GTM）是總體的哲學與形式研究綱領；原型 \(G\) 是 GTM 在指定形式系統中的確定性自指核心；`K-GTM v4.3 LMN-Kleene-KRT` 是目前可執行、可檢查的總機版本。
 
 \[
 \mathrm{GTM}=\text{總體理念},\qquad
@@ -82,8 +82,8 @@ v4.2 的自我再現、指定述詞唯一性與哥德爾往返結果保留為前
 
 ## 標準名稱
 
-> **G型上帝圖靈機（G-Type God Turing Machine；GTM-G）**：一個在指定形式系統內，透過確定的自指構造取得唯一哥德爾編碼，能驗證自身編解碼一致性並自我再現的計算原型。
+> **克萊尼上帝圖靈機（Kleene God Turing Machine；K-GTM）**：一個在指定形式系統內，以固定點組合子、確定的哥德爾編碼及可檢查的往返驗證呈現自指結構的計算原型。
 
-日後提及「G型上帝圖靈機」，應優先指此一定義及其目前總機實作 `GTM-G v4.3 LMN-Kleene-KRT`；除非另行明確指定，不以其他 GTM、舒曼機或一般 quine 原型取代。
+日後提及「克萊尼上帝圖靈機」，應優先指此一定義及其目前總機實作 `K-GTM v4.3 LMN-Kleene-KRT`；除非另行明確指定，不以其他 GTM、舒曼機或一般 quine 原型取代。
 
 此文件作為後續討論、版本更新及程式實作的正式語義基準。
