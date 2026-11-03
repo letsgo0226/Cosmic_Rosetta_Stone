@@ -30,7 +30,8 @@ jobs:
           import json, pathlib
           p = json.loads(pathlib.Path("deployment/total_turing_machine.json").read_text())
           assert p["machine_id"] == "gtm-g"
-          assert p["version"] == "4.2"
+          assert p["version"] == "4.3"
+          assert p["system"] == "LMN-Kleene-KRT"
           assert p["role"] == "total_turing_machine"
           assert p["safety"]["live_trading"] is False
           assert pathlib.Path(p["entrypoint"]).is_file()
@@ -38,22 +39,26 @@ jobs:
           assert pathlib.Path(p["memory_registry"]).is_file()
           PY
 
-      - name: Execute and verify GTM-G v4.2
+      - name: Execute and verify GTM-G v4.3 LMN-Kleene-KRT
         run: |
           mkdir -p dist
-          sh machines/GTM-G_v42_2KB.sh > dist/GTM-G_v42_report.json
+          sh machines/GTM-G_v43_LMN_KRT_2KB.sh > dist/GTM-G_v43_report.json
           python3 - <<'PY'
           import json, pathlib
-          r = json.loads(pathlib.Path("dist/GTM-G_v42_report.json").read_text())
-          assert r["version"] == "4.2"
+          r = json.loads(pathlib.Path("dist/GTM-G_v43_report.json").read_text())
+          assert r["version"] == "4.3"
+          assert r["system"] == "LMN-Kleene-KRT"
           assert r["role"] == "total_turing_machine"
-          assert r["quine_verified"] is True
+          assert r["semantic_fixed_point"] is True
           assert r["roundtrip"] is True
-          assert r["unique_for_P_over_N"] is True
+          assert r["template_free_relative_to_quine_string"] is True
+          assert r["fully_rule_free"] is False
+          assert r["live_trading"] is False
           PY
 
       - name: Package deployment artifact
         run: |
+          cp machines/GTM-G_v43_LMN_KRT_2KB.sh dist/
           cp machines/GTM-G_v42_2KB.sh dist/
           cp deployment/total_turing_machine.json dist/
           cp docs/GTM_G_CANONICAL_DEFINITION.md dist/
@@ -62,7 +67,7 @@ jobs:
       - name: Publish verified total-machine artifact
         uses: actions/upload-artifact@v4
         with:
-          name: GTM-G-v4.2
+          name: GTM-G-v4.3-LMN-Kleene-KRT
           path: dist/
           if-no-files-found: error
           retention-days: 90
