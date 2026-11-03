@@ -3,9 +3,10 @@
   "machine_id": "gtm-g",
   "canonical_name_zh": "G型上帝圖靈機",
   "canonical_name_en": "G-Type God Turing Machine",
-  "version": "4.2",
+  "version": "4.3",
+  "system": "LMN-Kleene-KRT",
   "role": "total_turing_machine",
-  "entrypoint": "machines/GTM-G_v42_2KB.sh",
+  "entrypoint": "machines/GTM-G_v43_LMN_KRT_2KB.sh",
   "definition": "docs/GTM_G_CANONICAL_DEFINITION.md",
   "memory_registry": "TURING_MACHINE_MEMORY.md",
   "automation": {
@@ -15,6 +16,7 @@
   },
   "safety": {
     "live_trading": false,
-    "claims_omniscience": false
+    "claims_omniscience": false,
+    "fully_rule_free": false
   }
 }
