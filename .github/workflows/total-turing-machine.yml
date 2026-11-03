@@ -29,7 +29,8 @@ jobs:
           python3 - <<'PY'
           import json, pathlib
           p = json.loads(pathlib.Path("deployment/total_turing_machine.json").read_text())
-          assert p["machine_id"] == "gtm-g"
+          assert p["machine_id"] == "kleene-gtm"
+          assert p["canonical_name_en"] == "Kleene God Turing Machine"
           assert p["version"] == "4.3"
           assert p["system"] == "LMN-Kleene-KRT"
           assert p["role"] == "total_turing_machine"
@@ -42,12 +43,14 @@ jobs:
       - name: Execute and verify GTM-G v4.3 LMN-Kleene-KRT
         run: |
           mkdir -p dist
-          sh machines/GTM-G_v43_LMN_KRT_2KB.sh > dist/GTM-G_v43_report.json
+          sh machines/K-GTM_v43_LMN_KRT_2KB.sh > dist/K-GTM_v43_report.json
           python3 - <<'PY'
           import json, pathlib
-          r = json.loads(pathlib.Path("dist/GTM-G_v43_report.json").read_text())
+          r = json.loads(pathlib.Path("dist/K-GTM_v43_report.json").read_text())
           assert r["version"] == "4.3"
           assert r["system"] == "LMN-Kleene-KRT"
+          assert r["machine"] == "Kleene God Turing Machine"
+          assert r["abbreviation"] == "K-GTM"
           assert r["role"] == "total_turing_machine"
           assert r["semantic_fixed_point"] is True
           assert r["roundtrip"] is True
@@ -58,7 +61,7 @@ jobs:
 
       - name: Package deployment artifact
         run: |
-          cp machines/GTM-G_v43_LMN_KRT_2KB.sh dist/
+          cp machines/K-GTM_v43_LMN_KRT_2KB.sh dist/
           cp machines/GTM-G_v42_2KB.sh dist/
           cp deployment/total_turing_machine.json dist/
           cp docs/GTM_G_CANONICAL_DEFINITION.md dist/
