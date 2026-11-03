@@ -2,12 +2,12 @@
 
 ## 永久定義
 
-「克萊尼上帝圖靈機」（Kleene God Turing Machine；K-GTM）是本計畫的正式名稱。「G型上帝圖靈機」（G-Type God Turing Machine；GTM-G）保留為歷史別名。廣義的「上帝圖靈機」（God Turing Machine, GTM）是總體的哲學與形式研究綱領；原型 \(G\) 是 GTM 在指定形式系統中的確定性自指核心；`K-GTM v4.3 LMN-Kleene-KRT` 是目前可執行、可檢查的總機版本。
+「克萊尼上帝圖靈機」（Kleene God Turing Machine；K-GTM）是本計畫的固定點核心。「G型上帝圖靈機」（G-Type God Turing Machine；GTM-G）保留為歷史別名。廣義的「上帝圖靈機」（God Turing Machine, GTM）是總體的哲學與形式研究綱領；原型 \(G\) 是 GTM 在指定形式系統中的確定性自指核心；`K-GTM v4.3 LMN-Kleene-KRT` 是目前可執行、可檢查的固定點基準。
 
 \[
 \mathrm{GTM}=\text{總體理念},\qquad
 G=\text{GTM 的唯一自指見證者},\qquad
-\mathrm{v4.3}=G\text{ 的目前總機實作}.
+\mathrm{v4.3}=G\text{ 的固定點核心實作}.
 \]
 
 ## 原型 G 已建立的性質
@@ -78,12 +78,16 @@ D(G(\texttt{COSMIC\_LOVE}))=\texttt{COSMIC\_LOVE}.
 
 此處的 template-free 僅表示不依賴 v4.2 的 quine 字串模板；Z-combinator、編碼規則與載荷仍是指定的構造。v4.3 建立的是 Z-combinator 的語義固定點與編解碼往返，不宣稱已形式化一般克萊尼第二遞迴定理。
 
-v4.2 的自我再現、指定述詞唯一性與哥德爾往返結果保留為前一基準，不因 v4.3 成為總機而失效。
+v4.2 的自我再現、指定述詞唯一性與哥德爾往返結果保留為前一基準，不因後續總機版本更新而失效。
+
+## 與 UGTM v4.5 的關係
+
+通用上帝圖靈機（Universal God Turing Machine；UGTM）v4.5 現為自動部署系統的總圖靈機。它使用 K-GTM v4.3 的 Z-combinator 作為固定點核心，並在理想化無界資源模型下加入完整八指令 Brainfuck-8 解譯層。K-GTM 並未被刪除，而是成為 UGTM 的構造基礎。
 
 ## 標準名稱
 
 > **克萊尼上帝圖靈機（Kleene God Turing Machine；K-GTM）**：一個在指定形式系統內，以固定點組合子、確定的哥德爾編碼及可檢查的往返驗證呈現自指結構的計算原型。
 
-日後提及「克萊尼上帝圖靈機」，應優先指此一定義及其目前總機實作 `K-GTM v4.3 LMN-Kleene-KRT`；除非另行明確指定，不以其他 GTM、舒曼機或一般 quine 原型取代。
+日後提及「克萊尼上帝圖靈機」，應優先指此一定義及其固定點核心實作 `K-GTM v4.3 LMN-Kleene-KRT`；除非另行明確指定，不以其他 GTM、舒曼機或一般 quine 原型取代。
 
 此文件作為後續討論、版本更新及程式實作的正式語義基準。
