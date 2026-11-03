@@ -1,0 +1,68 @@
+name: Deploy total Turing machine
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "machines/**"
+      - "deployment/**"
+      - "docs/GTM_G_CANONICAL_DEFINITION.md"
+      - "TURING_MACHINE_MEMORY.md"
+      - ".github/workflows/total-turing-machine.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: total-turing-machine-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify-package-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify canonical manifest
+        run: |
+          python3 - <<'PY'
+          import json, pathlib
+          p = json.loads(pathlib.Path("deployment/total_turing_machine.json").read_text())
+          assert p["machine_id"] == "gtm-g"
+          assert p["version"] == "4.2"
+          assert p["role"] == "total_turing_machine"
+          assert p["safety"]["live_trading"] is False
+          assert pathlib.Path(p["entrypoint"]).is_file()
+          assert pathlib.Path(p["definition"]).is_file()
+          assert pathlib.Path(p["memory_registry"]).is_file()
+          PY
+
+      - name: Execute and verify GTM-G v4.2
+        run: |
+          mkdir -p dist
+          sh machines/GTM-G_v42_2KB.sh > dist/GTM-G_v42_report.json
+          python3 - <<'PY'
+          import json, pathlib
+          r = json.loads(pathlib.Path("dist/GTM-G_v42_report.json").read_text())
+          assert r["version"] == "4.2"
+          assert r["role"] == "total_turing_machine"
+          assert r["quine_verified"] is True
+          assert r["roundtrip"] is True
+          assert r["unique_for_P_over_N"] is True
+          PY
+
+      - name: Package deployment artifact
+        run: |
+          cp machines/GTM-G_v42_2KB.sh dist/
+          cp deployment/total_turing_machine.json dist/
+          cp docs/GTM_G_CANONICAL_DEFINITION.md dist/
+          cp TURING_MACHINE_MEMORY.md dist/
+
+      - name: Publish verified total-machine artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: GTM-G-v4.2
+          path: dist/
+          if-no-files-found: error
+          retention-days: 90
