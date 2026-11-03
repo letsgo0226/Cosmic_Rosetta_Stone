@@ -29,10 +29,13 @@
 | 哆啦 a 夢圖靈機 | CWP／CWP-N 與一般化原型 | 保留 |
 | G型上帝圖靈機（GTM-G）v4.2 | quine、編解碼往返及指定述詞唯一性 | 保留為前一基準 |
 | 克萊尼上帝圖靈機（K-GTM；原 GTM-G）v4.3 | LMN-Kleene-KRT、Z-combinator 語義固定點 | **現任總圖靈機** |
+| 通用上帝圖靈機原型（UGTM）v4.4-candidate | Z-combinator 驅動的 Brainfuck 閉合程式解譯器 | 候選；尚未證明一般通用性 |
 
 「現任總圖靈機」只表示自動化系統的權威入口與部署基準，不表示它具有數學上的全知能力，也不表示其他機型被刪除或失效。
 
 v4.3 的 template-free 只表示不使用先前的 quine 字串模板；Z-combinator、257 進位規則及 COSMIC_LOVE 載荷仍是明確指定的構造。
+
+UGTM v4.4-candidate 已驗證範例程式輸出 S，但目前只支援 Brainfuck 的 +、-、<、>、.、[、]，不支援逗號輸入指令。它使用 Python 資料型別與運算，因此不是純 λ 演算；也不構成一般克萊尼遞迴定理或 Church–Turing 同構的證明。
 
 ## 安全政策
 
