@@ -1,6 +1,6 @@
 # Cosmic_Rosetta_Stone
 
-本倉庫目前以 **通用上帝圖靈機（UGTM）v4.5 LMN-Church-Turing-Kleene** 作為全自動部署系統的總圖靈機；K-GTM v4.3 保留為其固定點核心。
+本倉庫以 **通用上帝圖靈機（Universal God Turing Machine；UGTM）** 作為全自動部署系統的總圖靈機。現行實作為 v4.5 LMN-Church-Turing-Kleene；K-GTM v4.3 保留為其固定點核心。
 
 - [圖靈機記憶清單](TURING_MACHINE_MEMORY.md)
 - [克萊尼上帝圖靈機正式定義](docs/GTM_G_CANONICAL_DEFINITION.md)
