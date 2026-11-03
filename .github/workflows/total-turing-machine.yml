@@ -7,6 +7,7 @@ on:
       - "machines/**"
       - "deployment/**"
       - "docs/GTM_G_CANONICAL_DEFINITION.md"
+      - "docs/UGTM_UNIVERSALITY_SCOPE.md"
       - "TURING_MACHINE_MEMORY.md"
       - ".github/workflows/total-turing-machine.yml"
   workflow_dispatch:
@@ -29,48 +30,53 @@ jobs:
           python3 - <<'PY'
           import json, pathlib
           p = json.loads(pathlib.Path("deployment/total_turing_machine.json").read_text())
-          assert p["machine_id"] == "kleene-gtm"
-          assert p["canonical_name_en"] == "Kleene God Turing Machine"
-          assert p["version"] == "4.3"
-          assert p["system"] == "LMN-Kleene-KRT"
+          assert p["machine_id"] == "ugtm"
+          assert p["canonical_name_en"] == "Universal God Turing Machine"
+          assert p["version"] == "4.5"
+          assert p["system"] == "LMN-Church-Turing-Kleene"
           assert p["role"] == "total_turing_machine"
           assert p["safety"]["live_trading"] is False
           assert pathlib.Path(p["entrypoint"]).is_file()
           assert pathlib.Path(p["definition"]).is_file()
           assert pathlib.Path(p["memory_registry"]).is_file()
+          assert pathlib.Path(p["universality_reference"]).is_file()
           PY
 
-      - name: Execute and verify GTM-G v4.3 LMN-Kleene-KRT
+      - name: Execute and verify UGTM v4.5
         run: |
           mkdir -p dist
-          sh machines/K-GTM_v43_LMN_KRT_2KB.sh > dist/K-GTM_v43_report.json
+          sh machines/UGTM_v45_2KB.sh > dist/UGTM_v45_report.json
           python3 - <<'PY'
           import json, pathlib
-          r = json.loads(pathlib.Path("dist/K-GTM_v43_report.json").read_text())
-          assert r["version"] == "4.3"
-          assert r["system"] == "LMN-Kleene-KRT"
-          assert r["machine"] == "Kleene God Turing Machine"
-          assert r["abbreviation"] == "K-GTM"
+          r = json.loads(pathlib.Path("dist/UGTM_v45_report.json").read_text())
+          assert r["version"] == "4.5"
+          assert r["system"] == "LMN-Church-Turing-Kleene"
+          assert r["machine"] == "Universal God Turing Machine"
+          assert r["abbreviation"] == "UGTM"
           assert r["role"] == "total_turing_machine"
-          assert r["semantic_fixed_point"] is True
-          assert r["roundtrip"] is True
-          assert r["template_free_relative_to_quine_string"] is True
-          assert r["fully_rule_free"] is False
+          assert r["all_8_ops"] is True
+          assert r["closed_sample"] == "S"
+          assert r["input_sample"] == "A"
+          assert r["pure_lambda_calculus"] is False
+          assert r["general_kleene_theorem_proved"] is False
+          assert r["church_turing_isomorphism_proved"] is False
           assert r["live_trading"] is False
           PY
 
       - name: Package deployment artifact
         run: |
+          cp machines/UGTM_v45_2KB.sh dist/
           cp machines/K-GTM_v43_LMN_KRT_2KB.sh dist/
           cp machines/GTM-G_v42_2KB.sh dist/
           cp deployment/total_turing_machine.json dist/
           cp docs/GTM_G_CANONICAL_DEFINITION.md dist/
+          cp docs/UGTM_UNIVERSALITY_SCOPE.md dist/
           cp TURING_MACHINE_MEMORY.md dist/
 
       - name: Publish verified total-machine artifact
         uses: actions/upload-artifact@v4
         with:
-          name: GTM-G-v4.3-LMN-Kleene-KRT
+          name: UGTM-v4.5
           path: dist/
           if-no-files-found: error
           retention-days: 90
