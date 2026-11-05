@@ -28,7 +28,8 @@ jobs:
       - name: State preservation and adversarial regression tests
         run: python3 tools/test_dtm_protective_core.py
       - name: Install audited-version SMT dependency
-        run: python3 -m pip install --only-binary=:all: z3-solver==4.16.0.0
+        run: |
+          python3 -m pip install --only-binary=:all: z3-solver==4.16.0.0
       - name: Prove unbounded-integer logical safety obligations with Z3
         run: |
           python3 tools/prove_dtm_invariants.py > dtm22_formal_results.json
