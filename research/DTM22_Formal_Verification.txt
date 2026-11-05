@@ -1,0 +1,237 @@
+FORMAL VERIFICATION OF THE DORAEMON PROTECTIVE COMPUTATION CORE
+
+Technical report -- v0.2, November 6, 2026
+Project: DTM-22 protective computation alongside TM-009
+Status: Independently specified SMT proof obligations; model-level only.
+This is NOT a formal proof that all Python programs, physical systems, or
+identity-preservation claims are safe.
+
+ABSTRACT
+
+A bounded research program based on a designated DTM-22 identity label and
+three conserved symbolic tokens uses proposed, independently validated and
+committed state transitions. This technical note formulates its safety
+requirements in quantifier-free linear integer arithmetic (QF_LIA) and
+describes a machine-checkable Z3 counterexample search. For every fixed
+but arbitrary choice of integer inputs in the specified transition model,
+the negation of an invariant must be unsatisfiable. Nonvacuity checks
+independently show that legal transitions are still possible. A purposely
+weakened protection rule yields a concrete violation, exposing why the
+full guard is needed.
+
+SOURCE AND ROLE
+
+  tools/dtm_protective_core.py
+  tools/test_dtm_protective_core.py
+  tools/prove_dtm_invariants.py
+  .github/workflows/verify-dtm-protection.yml
+
+Canonical TM-003, TM-007, TM-009 and UGTM v4.5 implementations are not
+replaced by this verifier. In particular TM-009 remains a separate exact
+symbolic research implementation.
+
+1. MATHEMATICAL STATE SPACE
+
+Let S be the six-component integer tuple
+
+  S = (w, t, r, a, b, c),  all coordinates in mathematical Z.
+
+The components have the following abstract meanings:
+
+  w: designated worldline label (a symbolic identifier)
+  t: nonnegative model time label, held fixed by this model's transitions
+  r: nonnegative committed revision
+  a,b,c: allocations of three symbolic tokens ("dorayaki")
+
+Define the inductive state invariant
+
+  Inv(S) =
+    (w = 22)
+    AND (t >= 0)
+    AND (r >= 0)
+    AND (a >= 0) AND (b >= 0) AND (c >= 0)
+    AND (a+b+c = 3).
+
+The number of fields is finite. However r and t range over
+mathematical integers; this is NOT a finite-state automaton.
+
+2. CANDIDATE ACTIONS AND APPROVAL
+
+The model abstracts three permitted effects:
+
+  action = 1 (split):
+      candidate allocation = (1,1,1)
+
+  action = 2 (hold):
+      candidate allocation = current (a,b,c)
+
+  action = 3 (restore):
+      an approved, valid earlier checkpoint exists and the proposed
+      allocation is exactly the stored checkpoint allocation.
+
+For restoration, "approved earlier checkpoint exists" is represented
+by a Boolean snapshot_available plus the predicate Inv(snapshot).
+The finite checkpoint index, hash computation and Python container
+implementation are not modeled at the SMT level.
+
+An arbitrary proposed state S' is committed only if
+
+  Guard(S,S',action,snapshot) =
+      Inv(S') AND w'=w AND t'=t AND r'=r+1
+      AND (
+        action=1 AND (a',b',c')=(1,1,1)
+        OR
+        action=2 AND (a',b',c')=(a,b,c)
+        OR
+        action=3 AND snapshot_available AND Inv(snapshot)
+          AND (a',b',c')=snapshot.tokens
+      ).
+
+Unknown actions, failed integrity checks, missing snapshots and
+otherwise invalid proposals are denied.
+
+The logical state transformer is
+
+  Next(S,S',action,snapshot) =
+      IF Guard(...) THEN S' ELSE S.
+
+This is a total mathematical transition map on the state tuple for
+any given proposal. It is not an algorithm deciding whether arbitrary
+Turing programs halt, and it should not be confused with "total" in
+the sense of all research computations terminating.
+
+3. SAFETY CLAIMS
+
+For all mathematical integer values of S,S', snapshot and action,
+subject to Inv(S), the following are valid in the stated model:
+
+T1. Inductive invariant preservation:
+      Inv(S) => Inv(Next(...)).
+
+T2. Fail-closed / denial stutter:
+      Inv(S) AND NOT Guard(...) => Next(...) = S.
+
+T3. Identity and time-label retention:
+      Inv(S) => Next.w = S.w AND Next.t = S.t.
+
+T4. Revision monotonicity for accepted transitions:
+      Inv(S) AND Guard(...) => Next.r = S.r+1.
+
+T5. An accepted action must be one of 1,2,3.
+
+T6. An accepted split sets all tokens to 1.
+
+T7. An accepted hold leaves allocation unchanged.
+
+T8. An accepted restoration uses an approved checkpoint allocation.
+
+T9. A missing restoration checkpoint cannot commit.
+
+T10. An invalid proposed state cannot commit.
+
+T11. An arbitrary deployment-like action cannot commit.
+
+T12. A negative proposed token allocation cannot commit.
+
+T13. A proposed allocation with total different from 3 cannot commit.
+
+Each theorem is tested by supplying its NEGATION together with Inv(S)
+to Z3. A result "unsat" means that no counterexample exists in
+the stated QF_LIA mathematical formula, assuming solver correctness.
+
+Inductive proof: Base case Inv(S0) is checked at initialization.
+T1 proves that Inv(Sn) implies Inv(Sn+1). Standard mathematical
+induction then establishes Inv(Sn) for all FINITELY many transitions
+that have actually occurred in this abstract system. This assertion
+requires faithful guard execution and no bypassing of the interface.
+
+4. NONVACUITY AND NEGATIVE CONTROL
+
+W1. There exists a state and valid split proposal accepted by Guard.
+
+W2. There exists a state and valid hold proposal accepted by Guard.
+
+W3. There exists an approved valid snapshot whose restore is accepted.
+
+These are "sat" witness obligations, demonstrating that the protection
+system does more than deny every request.
+
+W4. A deliberately WEAKENED check that demands only conservation
+of a+b+c=3, without requiring nonnegative allocations and action
+semantics, admits the invalid allocation (4,-1,0). Z3 must report "sat".
+
+Thus the proof process is both positive (no safety counterexamples)
+and adversarial (a known unsafe variant has a counterexample).
+
+5. WHY SMT RESULTS ARE NOT THE WHOLE IMPLEMENTATION PROOF
+
+This model uses unbounded mathematical integers and a pure
+propose-verify-commit transition. The Python implementation uses
+bounded hardware resources, mutable checkpoint history lists,
+SHA-256 hash calculations, JSON serialization, a CLI, and potentially
+a separately selected certificate file. These operational details
+are OUTSIDE the SMT model.
+
+The correspondence between the symbolic Guard and Python methods
+is manually reviewed and reinforced by unit tests; it is not proven
+via a compiler correctness or relational refinement theorem.
+Additional work would be necessary for guarantees about concurrency,
+resource exhaustion, process failures, malicious module imports,
+time-of-check/time-of-use issues, or persistent authenticated logs.
+
+Notably, a hash chain proves neither the authorship nor the
+uncorrupted origin of a record against an attacker who can rewrite
+and rehash every checkpoint. This is why action effects, archive
+versions, and trust boundaries must remain separate concepts.
+
+6. REPRODUCIBLE VERIFICATION
+
+From the Cosmic_Rosetta_Stone repository root, run
+
+  python3 tools/test_dtm_protective_core.py
+  python3 -m pip install --only-binary=:all: z3-solver==4.16.0.0
+  python3 tools/prove_dtm_invariants.py
+
+The Z3 script emits a JSON object including:
+  - 13 expected "unsat" safety claims;
+  - 3 expected "sat" legal-transition witnesses;
+  - 1 expected "sat" unsafe-rule counterexample;
+  - the exact modeling and scientific disclaimers.
+
+GitHub Actions executes the regression tests and symbolic proof checks,
+and uploads the JSON output as a short-retention CI artifact. The
+Git repository version of this technical note is the durable
+record of the model, while CI artifacts and published dependencies
+may not be retained permanently.
+
+Dependency reference:
+  https://pypi.org/project/z3-solver/
+  https://github.com/Z3Prover/z3
+
+7. SCIENTIFIC AND PHILOSOPHICAL INTERPRETATION
+
+This restricted guarantee concerns code-controlled, mathematical
+state invariants. The worldline label is not evidence that a physical
+person retains their identity across time. The token-conservation
+rule is not a conservation law of cosmology or quantum mechanics.
+A logical restore is not resurrection, time reversal, or restoration
+of conscious experience.
+
+The separate TM-009 research on computable information geometry
+does not turn a model-level safety proof into a real photonized
+physical barrier. A future physical safety claim would require
+specified protected subjects, sensors, actuators, harmful events,
+failure modes, independent experiments and empirical predictions.
+
+8. NEXT VERIFICATION MILESTONES
+
+(1) Model-check explicit-history indices and a bounded checkpoint log.
+(2) Define a refinement mapping between Python methods and SMT guards.
+(3) Include authenticated event logging and a replay-resistance model.
+(4) Add resource budgets and fail-closed behavior for malformed inputs.
+(5) Preserve the current TM-003, TM-007, TM-009 and UGTM v4.5 baselines.
+
+No new canonical Turing-machine registration or automatic deployment
+is implied by this formal verification experiment.
+
+END OF TECHNICAL REPORT v0.2
