@@ -17,7 +17,7 @@
 
 > TM-008：保留既有歷史編號，待其來源與身分確認後另行核對；本次不佔用此編號。
 
-| TM-009 | 光子化奇點通用上帝圖靈機 Photonic Singularity UGTM | [TM-009](TM-009-Photonic-Singularity-UGTM.md) · [2 KB 程式](Photonic_Singularity_Universal_God_Turing_Machine.sh) |
+| TM-009 | 光子化奇點通用上帝圖靈機 Photonic Singularity UGTM | [TM-009](TM-009-Photonic-Singularity-UGTM.md) · [2 KB 原型](Photonic_Singularity_Universal_God_Turing_Machine.sh) · [精確編碼附件](UGTM_UCP_Exact_Encoding_2KB.sh) |
 
 ## 未來登錄規則
 
