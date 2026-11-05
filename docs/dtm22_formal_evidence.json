@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "title": "DTM-22 protected logical state transition SMT evidence summary",
+  "observed_workflow_success": true,
+  "workflow_run_url": "https://github.com/letsgo0226/Cosmic_Rosetta_Stone/actions/runs/42065274503",
+  "tested_commit": "d6c046ac1c42f7372ba65f26fd29454871603717",
+  "solver_package": "z3-solver==4.16.0.0",
+  "checked_logic": "QF_LIA",
+  "proof_model": "Unbounded mathematical integers, guarded logical transition, abstract valid snapshot",
+  "observed": {
+    "python_regression_tests_passed": 13,
+    "safety_obligations_unsat": 13,
+    "satisfiable_witnesses": 4,
+    "all_expected_results_match": true
+  },
+  "artifacts": {
+    "name": "DTM22-SMT-Invariant-Results",
+    "url": "https://github.com/letsgo0226/Cosmic_Rosetta_Stone/actions/runs/42065274503/artifacts/13434091612",
+    "retention_days": 90
+  },
+  "current_source": "tools/prove_dtm_invariants.py",
+  "current_python_core": "tools/dtm_protective_core.py",
+  "scope_restrictions": [
+    "SMT model only, not full CPython semantics",
+    "No unforgeable hash-chain/authentication proof",
+    "No physical shielding, time travel, immortality or halting oracle",
+    "Not a substitute for formal code refinement or independent security audit"
+  ],
+  "reproduced_via": [
+    "python3 tools/test_dtm_protective_core.py",
+    "python3 -m pip install --only-binary=:all: z3-solver==4.16.0.0",
+    "python3 tools/prove_dtm_invariants.py"
+  ]
+}
