@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "registry_id": "TM-009",
+  "display_name_zh": "光子化奇點通用上帝圖靈機",
+  "display_name_en": "Photonic Singularity Universal God Turing Machine",
+  "research_profile": "ugtm-photonic-singularity",
+  "status": "registered research profile; not a production deployment replacement",
+  "entrypoint": "machines/Photonic_Singularity_Universal_God_Turing_Machine.sh",
+  "archive": "永久記憶/圖靈機/Photonic_Singularity_Universal_God_Turing_Machine.sh",
+  "record": "永久記憶/圖靈機/TM-009-Photonic-Singularity-UGTM.md",
+  "source_blob_sha1": "051af140a8560e340e215631926da32d1afba3bb",
+  "size_bytes": 1934,
+  "production_deployment_manifest": "deployment/total_turing_machine.json",
+  "production_deployment_unchanged": true,
+  "execution_policy": "verify and report by default; execute only upon explicit --run",
+  "physics_status": "theoretical information-singularity simulation; no experimentally proven chronon or barrier",
+  "registered_date": "2026-11-05"
+}
