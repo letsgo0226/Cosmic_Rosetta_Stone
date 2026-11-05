@@ -21,3 +21,14 @@
 [TM-009 永久機型紀錄](永久記憶/圖靈機/TM-009-Photonic-Singularity-UGTM.md) · [研究載入指標](deployment/research_machine_loader.json) · [精確驗證測試](tools/test_photonic_exact.py)
 
 在儲存庫根目錄執行 `python3 tools/load_research_machine.py` 僅核對身份；`python3 tools/load_research_machine.py --run 10 0.6 0.3 1` 才實際執行精確版本（最後參數為 `u`，非舊版的 `omega`）。**正式總圖靈機 UGTM v4.5 及其既有自動部署基準不變**。這些模型不證明時間粒子或真正的光子化奇點。
+
+## DTM-22 protective computation research (2026-11-06)
+
+A new **side-effect-free experimental protection layer**, based on the existing TM-003 Doraemon three-phase token model and TM-007 verify-before-deploy design, is now available. It verifies selected TM-009 exact symbolic certificates without replacing any original machine or deployment setting.
+
+- [English research specification (.txt)](research/Protective_Computation_and_State_Integrity.txt)
+- [Python state guardian and TM-009 certificate validator](tools/dtm_protective_core.py)
+- [Adversarial regression tests](tools/test_dtm_protective_core.py)
+- [Protective CI workflow](.github/workflows/verify-dtm-protection.yml)
+
+Run `python3 tools/dtm_protective_core.py --fault drop --restore` to observe a denied invalid proposal and a logical checkpoint restoration. Run `python3 tools/test_dtm_protective_core.py` for tests. **The project does not claim actual time travel, consciousness preservation, physical shielding, or perfect security.** The original TM-003, TM-009, UGTM v4.5, and Schumann baselines are unchanged.
