@@ -83,18 +83,52 @@ class Guardian:
     def state(self) -> State:
         return self.history[-1].state
 
+    def _action_policy(self, previous_state: State, proposal: State,
+                       action: str, previous_index: int) -> None:
+        """Accept only known effects, including a historically backed restore.
+
+        This is an in-process reference policy, NOT an authentication boundary
+        against Python callers that can rewrite the entire Guardian object.
+        """
+        if action == "split":
+            if proposal.cookies != (1, 1, 1):
+                raise Rejected("split_effect_mismatch")
+        elif action == "hold":
+            if proposal.cookies != previous_state.cookies:
+                raise Rejected("hold_effect_mismatch")
+        elif action.startswith("restore_"):
+            raw = action[len("restore_"):]
+            if (not raw.isascii() or not raw.isdecimal()
+                    or len(raw) > 20):
+                raise Rejected("invalid_restore_reference")
+            target = int(raw)
+            if not 0 <= target <= previous_index:
+                raise Rejected("missing_checkpoint")
+            if proposal.cookies != self.history[target].state.cookies:
+                raise Rejected("restore_effect_mismatch")
+        else:
+            raise Rejected("action_not_allowed")
+
     def verify_history(self) -> bool:
+        if not self.history:
+            raise Rejected("missing_genesis")
         previous = GENESIS_ANCHOR
         for index, record in enumerate(self.history):
             validate_state(record.state)
             if record.previous != previous:
                 raise Rejected("history_link_mismatch")
-            if record.action != ("genesis" if index == 0 else record.action):
-                raise Rejected("genesis_action_mismatch")
+            if index == 0:
+                if record.action != "genesis":
+                    raise Rejected("genesis_action_mismatch")
+            else:
+                old = self.history[index - 1].state
+                if record.state.worldline != old.worldline or record.state.time != old.time:
+                    raise Rejected("identity_or_time_changed")
+                if record.state.revision != old.revision + 1:
+                    raise Rejected("revision_gap")
+                self._action_policy(old, record.state, record.action, index - 1)
             if record.digest != checkpoint_hash(previous, record.action, record.state):
                 raise Rejected("history_digest_mismatch")
-            if index and record.state.revision != self.history[index - 1].state.revision + 1:
-                raise Rejected("revision_gap")
             previous = record.digest
         return True
 
@@ -107,6 +141,7 @@ class Guardian:
                 raise Rejected("identity_or_time_changed")
             if proposal.revision != current.revision + 1:
                 raise Rejected("nonmonotone_revision")
+            self._action_policy(current, proposal, action, len(self.history) - 1)
         except Rejected as exc:
             self.rejections.append(str(exc))
             return {"status": "DENIED", "reason": str(exc),
