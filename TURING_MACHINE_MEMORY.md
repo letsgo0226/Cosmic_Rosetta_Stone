@@ -46,12 +46,14 @@ UGTM v4.5 已驗證閉合程式輸出 S，並驗證逗號輸入程式在輸入 A
 
 ## 光子化奇點研究載入與永久登錄（TM-009）
 
-- 最新研究原型：**光子化奇點通用上帝圖靈機** (Photonic Singularity UGTM)，研究機型 ID **TM-009**。
-- 版本檔案：[`machines/Photonic_Singularity_Universal_God_Turing_Machine.sh`](machines/Photonic_Singularity_Universal_God_Turing_Machine.sh)，1,934 bytes。
-- [永久機型記錄](永久記憶/圖靈機/TM-009-Photonic-Singularity-UGTM.md) · [研究載入指標](deployment/research_machine_loader.json) · [驗證載入器](tools/load_research_machine.py)。
-- 以 `python3 tools/load_research_machine.py` 只讀驗證；加入 `--run` 才進行明示執行。
-- **不變更** UGTM v4.5 的正式自動部署指標與其他已登錄基準；TM-008 歷史編號保留。
-- 2 KB 程式的相對論和量子數值運算使用浮點數；另增設 [1,318 bytes 精確有理數／符號編碼附件](machines/UGTM_UCP_Exact_Encoding_2KB.sh)，保留根式與對數為符號形式。哥德爾編碼可無損保存指定資料，不代表物理模型或新時間粒子得到證實。
+- 正式研究機型名稱：**光子化奇點通用上帝圖靈機** (Photonic Singularity UGTM)，登錄 ID **TM-009**。
+- **現行預設載入版本：1,318-byte 精確有理數／符號編碼版** [`machines/UGTM_UCP_Exact_Encoding_2KB.sh`](machines/UGTM_UCP_Exact_Encoding_2KB.sh)；[永久保存副本](永久記憶/圖靈機/UGTM_UCP_Exact_Encoding_2KB.sh)。
+- **前一研究版本保留：1,934-byte 浮點光子化奇點版** [`machines/Photonic_Singularity_Universal_God_Turing_Machine.sh`](machines/Photonic_Singularity_Universal_God_Turing_Machine.sh)；[永久保存副本](永久記憶/圖靈機/Photonic_Singularity_Universal_God_Turing_Machine.sh)。
+- [TM-009 正式記錄](永久記憶/圖靈機/TM-009-Photonic-Singularity-UGTM.md) · [現行研究載入設定](deployment/research_machine_loader.json) · [內容核對與明示執行](tools/load_research_machine.py)。
+- 載入器預設**僅驗證不執行**。使用 `python3 tools/load_research_machine.py --run 10 0.6 0.3 1` 才執行精確研究版，最後一個參數為 `u`，不是舊版的角頻率 `omega`。
+- 正式總機部署仍為 UGTM v4.5，見 [`deployment/total_turing_machine.json`](deployment/total_turing_machine.json)；本次不改動其基準與全八指令 Brainfuck 解譯器。
+- 精確版於指定**有理數參數及符號表示**範圍內不使用浮點捨入，但並不完整實作 Brainfuck-8、光子實驗或可計算所有物理現象。
+- 舊舒曼機基準、ATGC 模組、TM-001 至 TM-007 均保留；TM-008 暫時保留歷史編號。
 
 ## 安全政策
 
