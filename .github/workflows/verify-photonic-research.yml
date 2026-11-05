@@ -1,0 +1,25 @@
+name: Verify TM-009 photonic research encoding
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "machines/Photonic_Singularity_Universal_God_Turing_Machine.sh"
+      - "machines/UGTM_UCP_Exact_Encoding_2KB.sh"
+      - "永久記憶/圖靈機/Photonic_Singularity_Universal_God_Turing_Machine.sh"
+      - "deployment/research_machine_loader.json"
+      - "tools/load_research_machine.py"
+      - "tools/test_photonic_exact.py"
+      - ".github/workflows/verify-photonic-research.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify research loader and exact encoding
+        run: python3 tools/test_photonic_exact.py
