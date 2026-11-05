@@ -1,0 +1,27 @@
+name: Verify DTM-22 protective research prototype
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "tools/dtm_protective_core.py"
+      - "tools/test_dtm_protective_core.py"
+      - "research/Protective_Computation_and_State_Integrity.txt"
+      - ".github/workflows/verify-dtm-protection.yml"
+  pull_request:
+    paths:
+      - "tools/dtm_protective_core.py"
+      - "tools/test_dtm_protective_core.py"
+      - ".github/workflows/verify-dtm-protection.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  protected-state-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: State preservation and adversarial regression tests
+        run: python3 tools/test_dtm_protective_core.py
