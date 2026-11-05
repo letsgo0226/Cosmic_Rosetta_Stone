@@ -9,6 +9,7 @@
 ## Current canonical total-machine reference (exact rational and symbolic)
 
 - [Executable archived in permanent memory](Photonic_Singularity_Exact_Arithmetic_Encoding_Closed_Loop_2KB.sh)
+- [Canonical PLEIADES source repository](https://github.com/letsgo0226/PLEIADES)
 - **File size:** 1,983 bytes.
 - **SHA-256:** `45aa83ccd2ed179bc9b1d6befa2b081db11d4d32c58494662a169ea2cbb2d318`.
 - **Designation date:** 2026-11-06.
