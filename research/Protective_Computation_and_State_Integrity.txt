@@ -1,0 +1,321 @@
+PROTECTIVE COMPUTATION AND STATE INTEGRITY
+IN THE PHOTONIC SINGULARITY UNIVERSAL GOD TURING MACHINE
+
+Research specification and proof sketch -- Draft v0.1
+Date: 2026-11-06
+Status: Non-peer-reviewed mathematical/software research proposal
+Author: To be confirmed prior to publication
+Project references: DTM-22 (TM-003), Three Cat Cookies (TM-007),
+                    Photonic Singularity UGTM (TM-009)
+
+ABSTRACT
+
+We propose a formally restricted "Doraemon protective computation" layer
+for a pre-existing family of experimental Turing-machine prototypes. The
+layer is not a machine for physical time travel, consciousness preservation,
+infinite survival, or the universal decision of arbitrary computations.
+Instead, it implements a small, finite, inspectable transition system with
+explicit conservation and state-identity invariants. Every proposed
+transition is calculated without external side effects and must satisfy
+predefined requirements before its new logical state is committed.
+Rejected transitions preserve the latest committed state.
+
+The prototype also validates a selected subset of the existing TM-009
+exact-symbolic output certificate independently: equality of two rational
+representations of proper-time squared, normalization and algebraic
+identity of three measurement probabilities, selected Fisher-information
+relations, consistency of symbolic amplitudes and Shannon entropy text,
+and reversibility of a base-257 Gödel representation. A hash-chained
+in-memory checkpoint sequence supports accidental-corruption detection
+subject to explicit trust assumptions. This research aims to establish
+testable, bounded safety invariants without misrepresenting program
+integrity as physical or metaphysical protection.
+
+KEYWORDS
+Formal methods; reference monitor; computational safety; state integrity;
+model checking; exact arithmetic; Gödel coding; finite transition system;
+information geometry; photonic singularity research; failure isolation.
+
+1. RESEARCH PROVENANCE AND PRESERVATION
+
+TM-003 (DTM-22 Dorayaki) previously modeled three formally labeled
+temporal aspects of a single designated "worldline" together with three
+symbolic dorayaki allocations. Its transition was (3,0,0) -> (1,1,1).
+The source uses prime-power Gödel encoding and asserts that the three
+encounters refer to the same designated worldline. That *assertion is an
+axiom within the toy model*, not a derivation of time travel or the
+identity of a conscious being across distinct times.
+
+TM-007 proposed an Encode -> Simulate -> Verify/Deploy workflow, with
+explicit restrictions on deploying or replacing existing projects. Its
+HALT/LIMIT convention is a bounded computation result, not a decision
+of whether an arbitrary program will run forever.
+
+TM-009 remains a distinct experimental research profile. Its active
+exact-symbolic edition uses rational inputs (T,v,f,u), rational algebra
+and formal nonrational expressions for a restricted three-state model.
+Its official research loader is separately versioned. No canonical UGTM
+deployment baseline or existing Schumann/ATGC model is modified here.
+
+This paper's protective implementation is an *adjacent module*, NOT a
+new numbered canonical Turing machine, and NOT a replacement for DTM-22
+or TM-009. The project may later choose a separate machine identifier,
+but no such promotion is claimed by this draft.
+
+2. FINITE PROTECTED STATE
+
+Define a committed logical state
+
+    S = (w,t,c0,c1,c2,r),
+
+where w is the designated model-worldline label, t is a nonnegative
+integer time label, (c0,c1,c2) is a triple of nonnegative integer
+dorayaki allocations, and r is a nonnegative revision number.
+
+In the initial demonstration w=22 and c=(3,0,0). The three logical
+phases are indexed 0,1,2 and can be reconstructed as
+
+    L_i(S) = (w,i,t,c_i), i in {0,1,2}.
+
+A state is VALID precisely when:
+
+    V(S) =
+       (w = 22)
+       AND (t is a nonnegative integer)
+       AND (r is a nonnegative integer)
+       AND (c0,c1,c2 are nonnegative integers)
+       AND (c0+c1+c2 = 3).
+
+The label "worldline" is purely formal, and the time label does not
+model a real spacetime curve. This choice is intentional: a small state
+space makes the first preservation proofs rigorous and transparent.
+
+3. PROPOSE-VERIFY-COMMIT SEMANTICS
+
+Let A be a finite allowlist of supported state-transforming actions:
+"split" converts the initial or current allocation into (1,1,1);
+"hold" preserves the allocation while recording a new revision.
+Unknown actions are DENIED.
+
+The guardian retains immutable state objects and checkpoint records.
+For a proposed transition F_a(S), the staged candidate S' is
+constructed in local program memory. It is committed only if
+
+    V(S') AND
+    w'=w AND t'=t AND r'=r+1.
+
+Rejected candidates produce a reason and do not append a checkpoint.
+The guardian uses no filesystem writes, network operations, calls to
+external programs or production deployment operations. Its command-line
+demonstration is a computation over local memory, not an automated
+controller of laboratory hardware.
+
+4. PRESERVATION PROPOSITION
+
+PROPOSITION 1 (Bounded inductive preservation).
+
+Let S0 be a valid initial state. Suppose every committed state is
+constructed using the guarded commit procedure and all checks in
+Section 3 execute faithfully. Then each state in the resulting
+checkpoint sequence satisfies V(S), and every two consecutive
+committed states preserve the designated worldline and time labels.
+
+PROOF.
+
+Base: the guardian validates S0 before recording the genesis
+checkpoint. Inductive step: assume the current state Sn satisfies
+V(Sn). The commit procedure refuses the candidate unless V(Sn+1)
+holds, w(n+1)=w(n), t(n+1)=t(n) and r(n+1)=r(n)+1. Therefore each
+accepted transition preserves the stated invariants by induction.
+Unknown actions and validation failures cannot append a checkpoint
+under the given implementation semantics. QED.
+
+This is a restricted invariant theorem. It does not establish the
+correctness of all Python programs, secure operation under arbitrary
+machine compromise, or correctness of every physics observable.
+
+PROPOSITION 2 (Noncommit of rejected candidates).
+
+Assume no external actor directly mutates the guardian's private
+checkpoint list. If a proposed transition fails the guard, then the
+recorded current State and its checkpoint digest are unchanged.
+
+PROOF.
+
+The verification path first constructs S' independently; on failed
+validation it returns a DENIED result before the append operation.
+The latest checkpoint remains the same. QED.
+
+5. CHECKPOINTS AND HASH-CHAIN LIMITATIONS
+
+Each checkpoint records a canonical UTF-8 serialization of
+(action, prior digest, current state). The implementation computes
+SHA-256 digests of this data and links each checkpoint to the previous
+digest.
+
+These hashes detect many accidental modifications and are testable
+for internal chain consistency. They are not, by themselves,
+unforgeable external records. An attacker able to rewrite the entire
+checkpoint history and rehash it can forge a self-consistent chain
+unless an independently trusted anchor or signed ledger exists.
+
+"Restore" creates a new committed state from an earlier VALID logical
+checkpoint, retaining revision monotonicity. It does NOT reverse
+physical events or restore subjective experience. In practical
+systems with external side effects, a restore request would need
+transaction boundaries and compensation protocols not provided here.
+
+6. TM-009 EXACT-CERTIFICATE REFERENCE MONITOR
+
+A separate read-only certificate validator accepts only a specific
+TM-009 exact-symbolic report schema. It checks:
+
+   - system == "UGTM-UCP-EXACT"
+   - model_only is True; physical_chronon_proven is False
+   - tau_squared and boost_tau_squared agree exactly as rational values
+   - proper_time has the correct rational or symbolic sqrt expression
+   - P0,P1,P2 are exact rational strings with sum 1 and each >= 0
+   - P0>0 and P1^2 = 4*P0*P2
+   - FI_u = 8*P0 and FI_theta = 2 within the defined model
+   - written symbolic amplitude squares agree with probabilities
+   - the specified exact Shannon-entropy expression is consistent
+   - the canonical JSON (without its godel257 field) reproduces the
+     supplied base-257 code using n <- 257*n+(byte+1), n_initial=1.
+
+All conditions are checked without floating-point rounding.
+For the exact model
+
+        P(u)=(1,2u^2,u^4)/(1+u^2)^2,  u>=0,
+
+the identity P1^2=4*P0*P2 and the relation FI_u=8*P0
+follow immediately. These are useful independently recomputed
+necessary relations, although they do not constitute universal
+validation of every model or laboratory measurement.
+
+A code reconstructed from a certificate demonstrates internal
+consistency, NOT authorship authentication, a physically truthful
+claim, or a proof that the source program executed untampered.
+Any party can regenerate a valid Gödel code after changing both
+the payload and the checksum. An authenticated provenance system
+would need additional signing, key management and deployment policy.
+
+7. FAILURE INJECTION AND TEST PLAN
+
+Demonstration attempts include:
+
+   - drop one token, leading to a total < 3
+   - introduce a negative allocation
+   - change the "worldline" label to 23
+   - request an unrecognized deployment-like action
+   - try to restore a checkpoint that does not exist
+   - tamper with a checkpoint state after its digest is recorded
+   - change TM-009 probabilities, symbolic entropy, or a Gödel code
+   - compare legitimate exact certificates at multiple rational inputs.
+
+Expected behavior: bad state transitions are DENIED without changing
+the committed allocation. Tampered local checkpoint chains raise
+an integrity exception. Invalid model certificates are rejected.
+The default CLI mode does not execute any external application,
+write to disk, or trigger trading/deployment.
+
+A CI test can validate these statements over the explicitly tested
+cases. It cannot establish the absence of all vulnerabilities or
+all possible modeling errors. No guarantee about an actual patient,
+animal, or cosmic physical boundary follows.
+
+8. REPRESENTATION VERSUS REFERENCE
+
+TM-003 uses a prime-power code for finite state labels; TM-009 uses
+a reversible byte-based G257 code for a specific UTF-8 certificate.
+These encoding choices must not be conflated with assertions about
+a physical person's identity or a general semantic fixed point.
+The protection layer can verify syntactic and algebraic invariants
+of a selected representation, but cannot infer the reality of the
+referent from a reversible identifier.
+
+Likewise, "photonic singularity" is a research name for an
+information-boundary hypothesis, not a detected cosmic singularity.
+A finite coefficient of Fisher information after suitable
+reparametrization is not evidence that a Schwarzschild curvature
+singularity has been removed. Pure-state mathematical evolution
+is not a model of experimental noise unless explicitly specified.
+
+9. INTEGRATION BOUNDARY
+
+The separation of responsibilities is:
+
+    TM-003: three-phase formal data model
+          |
+          v
+    DTM protective core: propose / verify / commit / restore
+          |
+          +--> certificate validation of selected TM-009 outputs
+          |
+          v
+    audit result: COMMITTED / DENIED / VERIFIED_MODEL_CERTIFICATE
+
+TM-009's executable and research loader are not modified or invoked
+by the default protective core. Producing a TM-009 JSON certificate
+requires a separately authorized command; the protection CLI will
+read a file only if the user explicitly supplies its path. The
+production total-machine deployment and canonical machine registry
+stay unchanged.
+
+10. WHAT COULD BE PROVED NEXT
+
+A formal proof assistant or small explicit-state model checker could
+prove the invariant preservation for all reachable states of a
+finite configured version, rather than checking a collection of
+examples. A separate, stateful reference monitor could be used to
+study fault domains, authentication, replay resistance, concurrency,
+resource exhaustion, and explicit transaction rollback. No physical
+safety theorem should be claimed before defining protected devices,
+actuators, sensors, failure modes and test procedures.
+
+11. ETHICS AND FALSIFIABILITY
+
+The purpose of a protective computation framework is not to claim
+"perfect protection", but to make protection failures identifiable
+and correctable. A safety-oriented implementation needs explicit
+permission, an interpretable reason for refusal, a trustworthy
+provenance policy and recoverable computation where possible.
+
+It is a non-negotiable research boundary that computational checks
+alone do not establish subjective continuity, immortality, genuine
+temporal transportation, black-hole engineering, or the creation
+of a barrier protecting life from all possible threats.
+
+12. REPRODUCIBILITY
+
+Repository:
+https://github.com/letsgo0226/Cosmic_Rosetta_Stone
+
+Original definitions:
+- 永久記憶/圖靈機/TM-003-DTM-22-Dorayaki.md
+- Doraemon_Turing_Machine-22.sh
+- 永久記憶/圖靈機/TM-007-Three-Cat-Cookies-Master.md
+- 永久記憶/圖靈機/TM-009-Photonic-Singularity-UGTM.md
+
+New module:
+- tools/dtm_protective_core.py
+- tools/test_dtm_protective_core.py
+- research/Protective_Computation_and_State_Integrity.txt
+
+From the repository root:
+
+    python3 tools/dtm_protective_core.py
+    python3 tools/dtm_protective_core.py --fault drop --restore
+    python3 -m unittest tools/test_dtm_protective_core.py -v
+
+Optional TM-009 report inspection (explicitly generated and supplied):
+
+    bash machines/UGTM_UCP_Exact_Encoding_2KB.sh > /tmp/tm009.json
+    python3 tools/dtm_protective_core.py --certificate /tmp/tm009.json
+
+The demonstration module does not read this file automatically.
+The original TM-003, TM-007, TM-009 and UGTM v4.5 versions are
+preserved exactly as registered; this draft does not promote a new
+canonical machine or alter their original source.
+
+END OF DRAFT v0.1 — mathematical/software protection proposal;
+not peer reviewed, not a physical protection guarantee.
