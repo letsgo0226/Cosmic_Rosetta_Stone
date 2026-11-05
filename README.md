@@ -16,4 +16,4 @@
 
 [永久機型資料](永久記憶/圖靈機/TM-009-Photonic-Singularity-UGTM.md) · [研究版 2 KB 程式](machines/Photonic_Singularity_Universal_God_Turing_Machine.sh) · [載入設定](deployment/research_machine_loader.json)
 
-以 `python3 tools/load_research_machine.py` 驗證內容身份；明確加上 `--run 10 0.6 0.3 0.2` 才執行。此登錄為總機研究入口，**不替換 v4.5 自動部署基準**；光子化奇點與時間粒子仍是研究假說。
+以 `python3 tools/load_research_machine.py` 驗證內容身份；明確加上 `--run 10 0.6 0.3 0.2` 才執行。另有 [1,318 bytes 的精確有理數／符號編碼附件](machines/UGTM_UCP_Exact_Encoding_2KB.sh)，用於減少數學表示的浮點捨入。此登錄為總機研究入口，**不替換 v4.5 自動部署基準**；光子化奇點與時間粒子仍是研究假說。
