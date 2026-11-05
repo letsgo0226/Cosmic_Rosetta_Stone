@@ -44,6 +44,15 @@ v4.3 的 template-free 只表示不使用先前的 quine 字串模板；Z-combin
 
 UGTM v4.5 已驗證閉合程式輸出 S，並驗證逗號輸入程式在輸入 A 時輸出 A。它使用 Python 資料型別與運算，因此不是純 λ 演算；也不構成一般克萊尼遞迴定理或 Church–Turing 同構的證明。
 
+## 光子化奇點研究載入與永久登錄（TM-009）
+
+- 最新研究原型：**光子化奇點通用上帝圖靈機** (Photonic Singularity UGTM)，研究機型 ID **TM-009**。
+- 版本檔案：[`machines/Photonic_Singularity_Universal_God_Turing_Machine.sh`](machines/Photonic_Singularity_Universal_God_Turing_Machine.sh)，1,934 bytes。
+- [永久機型記錄](永久記憶/圖靈機/TM-009-Photonic-Singularity-UGTM.md) · [研究載入指標](deployment/research_machine_loader.json) · [驗證載入器](tools/load_research_machine.py)。
+- 以 `python3 tools/load_research_machine.py` 只讀驗證；加入 `--run` 才進行明示執行。
+- **不變更** UGTM v4.5 的正式自動部署指標與其他已登錄基準；TM-008 歷史編號保留。
+- 2 KB 程式的相對論和量子數值運算使用浮點數。哥德爾編碼可無損保存指定資料，不代表物理模型或新時間粒子得到證實。
+
 ## 安全政策
 
 - 自動化只執行驗證、封裝與成品發布。
