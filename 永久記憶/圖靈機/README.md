@@ -1,6 +1,6 @@
 # 永久記憶圖靈機列表（PTMR）
 
-建立日期：2026-10-31。指定儲存庫：letsgo0226/Cosmic_Rosetta_Stone；指定路徑：`永久記憶/圖靈機/`。
+建立日期：2026-10-31。指定儲存庫：`letsgo0226/Cosmic_Rosetta_Stone`；指定路徑：`永久記憶/圖靈機/`。
 
 ## 登錄項目
 
@@ -11,13 +11,18 @@
 | TM-003 | 哆啦A夢圖靈機 DTM-22 Dorayaki | [TM-003](TM-003-DTM-22-Dorayaki.md) |
 | TM-004 | Astral Plane Turing Machine APTM-Ω | [TM-004](TM-004-APTM-Omega.md) |
 | TM-005 | Tier_11.sh | [TM-005](TM-005-Tier_11.md) |
-| TM-006 | Eternity Machine（永恆機）v0.1 — `Eternity_Machine.sh` | [TM-006](TM-006-Eternity-Machine.md) · [程式](Eternity_Machine.sh) |
-
+| TM-006 | Eternity Machine（永恆機）v0.1 | [TM-006](TM-006-Eternity-Machine.md) · [程式](Eternity_Machine.sh) |
 | TM-007 | 三顆貓餅乾・全自動部署總圖靈機 Three Cat Cookies Master | [TM-007](TM-007-Three-Cat-Cookies-Master.md) · [通用核心](three_cat_cookies_universal_pocket_2kb.sh) |
+| TM-008 | 歷史編號保留，等待來源核對 | 暫不重新分配 |
+| TM-009 | **光子化奇點通用上帝圖靈機** Photonic Singularity UGTM | [TM-009](TM-009-Photonic-Singularity-UGTM.md) · **[現行精確版 1,318 bytes](UGTM_UCP_Exact_Encoding_2KB.sh)** · [浮點歷史版 1,934 bytes](Photonic_Singularity_Universal_God_Turing_Machine.sh) |
 
-> TM-008：保留既有歷史編號，待其來源與身分確認後另行核對；本次不佔用此編號。
+## TM-009 現行載入
 
-| TM-009 | 光子化奇點通用上帝圖靈機 Photonic Singularity UGTM | [TM-009](TM-009-Photonic-Singularity-UGTM.md) · [2 KB 原型](Photonic_Singularity_Universal_God_Turing_Machine.sh) · [精確編碼附件](UGTM_UCP_Exact_Encoding_2KB.sh) |
+TM-009 的預設研究載入入口已改為 **精確有理數／符號編碼** 版本。浮點數歷史版不刪除，其第四個參數 `omega` 與精確版的 `u` 不同，不可混用。研究載入與正式全系統部署分離；正式總圖靈機 UGTM v4.5 保持不變。
+
+- [研究載入設定](../../deployment/research_machine_loader.json)
+- [已登錄研究載入器](../../tools/load_research_machine.py)
+- [測試](../../tools/test_photonic_exact.py)
 
 ## 未來登錄規則
 
@@ -25,4 +30,4 @@
 
 ## 科學與部署界線
 
-登錄不代表已證明通靈、Astral Plane、時間旅行、永生、停機神諭或跨維度轉換；也不代表交易策略已通過回測或正式部署。不得將研究原型直接接入實盤交易。Git 歷史提供版本追溯，但不保證永久不可刪除。
+登錄不代表已證明通靈、Astral Plane、時間旅行、時間粒子、光子化奇點、永生、停機神諭或跨維度轉換；也不代表交易策略已通過回測或正式部署。不得將研究原型直接接入實盤交易。Git 歷史提供版本追溯，但不保證永久不可刪除。
