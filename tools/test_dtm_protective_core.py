@@ -85,6 +85,34 @@ class ProtectedDTMTests(unittest.TestCase):
         with self.assertRaises(dtm.Rejected):
             g.verify_history()
 
+    def test_internal_valid_but_unauthorized_commit_is_denied(self):
+        # A syntactically valid state may still violate the action policy.
+        g = dtm.Guardian()
+        initial = g.state
+        expected = replace(initial, cookies=(1, 1, 1), revision=1)
+        for action in ("deploy", "hold", "restore_99"):
+            with self.subTest(action=action):
+                before_digest = g.history[-1].digest
+                response = g._commit(expected, action)
+                self.assertEqual(response["status"], "DENIED")
+                self.assertEqual(g.state, initial)
+                self.assertEqual(g.history[-1].digest, before_digest)
+                self.assertEqual(len(g.history), 1)
+
+    def test_hash_recalculation_does_not_bypass_action_policy(self):
+        g = dtm.Guardian()
+        g.apply("split")
+        original = g.history[-1]
+        # Attacker adjusts the action and recomputes the hash correctly.
+        # The state would not be a legal "hold" transition.
+        action = "hold"
+        fake = replace(original, action=action,
+                       digest=dtm.checkpoint_hash(original.previous, action,
+                                                  original.state))
+        g.history[-1] = fake
+        with self.assertRaisesRegex(dtm.Rejected, "hold_effect_mismatch"):
+            g.verify_history()
+
     def test_reject_bad_initial_state(self):
         for s in (
             dtm.State(worldline=23),
