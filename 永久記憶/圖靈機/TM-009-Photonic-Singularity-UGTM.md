@@ -1,40 +1,58 @@
 # TM-009 — 光子化奇點通用上帝圖靈機
 
 **English:** Photonic Singularity Universal God Turing Machine  
-**Date:** 2026-11-05  
-**Identity:** TM-009, permanently indexed **experimental research model** under Universal God Turing Machine (UGTM).  
-**Original source:** [UGTM repository source](https://github.com/letsgo0226/Universal_God_Turing_Machine/blob/main/Photonic_Singularity_Universal_God_Turing_Machine.sh)  
-**Archived immutable-by-convention copy:** [Photonic_Singularity_Universal_God_Turing_Machine.sh](Photonic_Singularity_Universal_God_Turing_Machine.sh)  
-**Loadable working copy:** [machines/Photonic_Singularity_Universal_God_Turing_Machine.sh](../../machines/Photonic_Singularity_Universal_God_Turing_Machine.sh)  
-**Size:** 1,934 UTF-8 bytes; **Git blob SHA-1:** `051af140a8560e340e215631926da32d1afba3bb`.  
+**Registry ID:** TM-009  
+**Initial registration:** 2026-11-05  
+**Current research implementation:** **UGTM–UCP Exact Encoding, 1,318-byte Shell/Python one-liner**  
+**Status:** active exact-symbolic **research loading entry**, NOT the canonical automated total-machine deployment.
 
-## Function and extent
+## Primary active machine (exact symbolic)
 
-The existing 2 KB Shell/Python one-liner integrates a built-in Brainfuck-8/Z-combinator sample, base-257 Gödel roundtrip of its output `S`, numerical flat-spacetime proper-time invariance, three-state quantum-inspired probability amplitudes, Shannon entropy, a Fisher-information coordinate singularity and regularized interior limit, and a formal (U^3=I) three-cycle.
+- [Executable](../../machines/UGTM_UCP_Exact_Encoding_2KB.sh) — `machines/UGTM_UCP_Exact_Encoding_2KB.sh`
+- [Permanent archived duplicate](UGTM_UCP_Exact_Encoding_2KB.sh) — `永久記憶/圖靈機/UGTM_UCP_Exact_Encoding_2KB.sh`
+- **File size:** 1,318 bytes.
+- **Git blob SHA-1:** `f8b2e2978b7de898b226d8014fbac0e7614a4589`
+- **Loading manifest:** [deployment/research_machine_loader.json](../../deployment/research_machine_loader.json)
+- **Read-only verified loader:** [tools/load_research_machine.py](../../tools/load_research_machine.py)
+- **Independent test entry:** [tools/test_photonic_exact.py](../../tools/test_photonic_exact.py)
 
-This **does not** prove a physical time particle, real cosmic photon barrier, gravitational singularity regularization, self-aware machine, indefinite survival, halting oracle, or complete physical quantum computer. Most transcendental and relativistic numbers in this 2 KB program are **floating-point approximations**; passing numerical checks does not constitute formal proof of all inputs. A separate exact symbolic encoding companion can represent selected mathematical quantities without binary-float rounding.
+The exact variant accepts four **rational decimal/fraction strings**: `T`, `v/c`, `frame/c`, `u`, defaulting to `10 0.6 0.3 1`. It uses Python `Fraction` for exact finite-rational arithmetic and preserves nonrational expressions symbolically.
 
-## Exact encoding supplement (new, independently testable)
+Mathematical outputs include `tau_squared = T²(1-v²)`, the algebraically equivalent Lorentz-transformed interval, symbolic `proper_time`, the qutrit-inspired normalized probability triple
 
-- [Exact symbolic one-liner (1,318 bytes)](UGTM_UCP_Exact_Encoding_2KB.sh); [loadable research copy](../../machines/UGTM_UCP_Exact_Encoding_2KB.sh).
-- Input arguments: `T`, `v/c`, `frame/c`, `u`, all exact decimal/fraction strings; default `10 0.6 0.3 1`.
-- Uses exact Python `Fraction` arithmetic for `tau² = T²(1-v²)` and the corresponding Lorentz-boost invariant; exact probabilities `(1,2u²,u⁴)/(1+u²)²`; symbolic `sqrt(2)` amplitudes and symbolic Shannon entropy; finite algebraic Fisher coordinate expressions; G257 roundtrip of the canonical JSON report.
-- **Scope:** This companion does not evaluate physical transcendental constants or empirical observations to infinitely many digits, does not implement all original UGTM Brainfuck transitions, and does not make a chronon or photonic barrier physically real. It is an exact encoding/symbolic-calculation **companion**, not a replacement for the 1,934-byte original.
-- `u = tan(theta/2)` is an independent exact mathematical parameter; without an additional model relating `theta` to proper time, this companion does not claim to simulate time-dependent quantum hardware.
+```text
+P = (1, 2*u*u, u**4) / (1+u*u)**2
+```
 
-## Preservation and authority
+Shannon entropy as an exact **expression** (special exact values `0`, `3/2`), `FI_u = 8/(1+u²)²`, `FI_theta = 2` for the interior of the model, a formal 3-cycle check, and an exact base-257 Gödel roundtrip for the output JSON certificate. The `u` parameter is a coordinate parameter; the script does not impose a physical `u(tau)` dynamics.
 
-- The canonical `通用上帝圖靈機` (UGTM) name remains unchanged.
-- The canonical automated deployment remains UGTM v4.5 (`deployment/total_turing_machine.json`). TM-009 is the **current photonic-singularity research loading profile**, not a silent replacement for the production validated binary.
-- K-GTM v4.3, GTM-G v4.2, ATGC/G257 and Ultimate Schumann Machine identities remain unchanged.
-- TM-001 through TM-007 are preserved. TM-008 is **reserved** pending confirmation of its previously discussed identity; this new record does not reuse it.
-- The read-only loader checks the versioned content identity before optional explicit execution; importing a memory registry must never automatically execute scripts.
+**Precision limits:** Even with exact algebraic strings, the script is not an exact simulation of arbitrary measured spacetime or laboratory photon systems. It does not explicitly evaluate transcendental values to infinitely many digits, and it does not include the original Brainfuck-8 interpreter's full program execution semantics.
 
-## Run
+## Historical photonic predecessor (preserved; no longer default)
+
+- [Original 1,934-byte one-liner](../../machines/Photonic_Singularity_Universal_God_Turing_Machine.sh)
+- [Original permanent archive](Photonic_Singularity_Universal_God_Turing_Machine.sh)
+- Git blob SHA-1: `051af140a8560e340e215631926da32d1afba3bb`.
+- Original inputs: `T v/c frame/c omega`. **The fourth argument is different** from the exact version, where it is `u`.
+- The original version includes a built-in Brainfuck interpreter test and a floating-point qutrit-clock demonstration absent from the smaller exact version; it is intentionally preserved to avoid losing its experimental capabilities.
+
+## System status and preservation
+
+- The **canonical** all-system name remains **通用上帝圖靈機** (Universal God Turing Machine, UGTM).
+- **UGTM v4.5 remains the separate current automated master deployment** in [deployment/total_turing_machine.json](../../deployment/total_turing_machine.json). This TM-009 change does **not** replace the v4.5 canonical eight-command Brainfuck-8 interpreter.
+- Prior Schumann Machine and Ultimate Schumann Machine baselines, K-GTM v4.3, G257/ATGC, and TM-001 to TM-007 are unchanged. TM-008 remains reserved for historical reconciliation.
+- Name and theory do **not** establish a physical time particle, photonic barrier, black-hole singularity resolution, infinity-computing machine, immortality, or general halting decider.
+- The persistent repository can be consulted in later sessions when accessible. It does not directly rewrite ChatGPT's internal memory.
+- All program execution is opt-in, and live trading is not permitted.
+
+## Load / run
+
+From the repository root:
 
 ```bash
 python3 tools/load_research_machine.py
-python3 tools/load_research_machine.py --run 10 0.6 0.3 0.2
+python3 tools/load_research_machine.py --run 10 0.6 0.3 1
+python3 tools/test_photonic_exact.py
 ```
 
-The latter runs a local script **only on explicit request**. The archive is a long-lived Git record, not a guarantee that a model or chat will automatically recall it across every future session. See [main research specification](https://github.com/letsgo0226/Universal_God_Turing_Machine/blob/main/docs/PHOTONIC_SINGULARITY_MASTER.md).
+The first command verifies file content identity and **does not execute** the machine. Only the second explicitly executes the exact research model. This registry preserves a Git record and a reproducible loading convention, not a guarantee of immutable or autonomous future execution.
