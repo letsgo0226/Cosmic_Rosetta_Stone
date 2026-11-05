@@ -6,7 +6,9 @@ on:
     paths:
       - "tools/dtm_protective_core.py"
       - "tools/test_dtm_protective_core.py"
+      - "tools/prove_dtm_invariants.py"
       - "research/Protective_Computation_and_State_Integrity.txt"
+      - "research/DTM22_Formal_Verification.txt"
       - ".github/workflows/verify-dtm-protection.yml"
   pull_request:
     paths:
@@ -25,3 +27,23 @@ jobs:
       - uses: actions/checkout@v4
       - name: State preservation and adversarial regression tests
         run: python3 tools/test_dtm_protective_core.py
+      - name: Install audited-version SMT dependency
+        run: python3 -m pip install --only-binary=:all: z3-solver==4.16.0.0
+      - name: Prove unbounded-integer logical safety obligations with Z3
+        run: |
+          python3 tools/prove_dtm_invariants.py > dtm22_formal_results.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('dtm22_formal_results.json').read_text())
+          assert r['summary']['all_matched_expected_results'] is True
+          assert r['summary']['unsat_safety_obligations'] == 13
+          assert r['summary']['sat_sanity_witnesses'] == 4
+          print(json.dumps(r['summary'],indent=2))
+          PY
+      - name: Save reproducible formal verification evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: DTM22-SMT-Invariant-Results
+          path: dtm22_formal_results.json
+          retention-days: 90
