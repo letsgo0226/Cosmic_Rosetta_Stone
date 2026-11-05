@@ -14,7 +14,7 @@ We propose a formally restricted "Doraemon protective computation" layer
 for a pre-existing family of experimental Turing-machine prototypes. The
 layer is not a machine for physical time travel, consciousness preservation,
 infinite survival, or the universal decision of arbitrary computations.
-Instead, it implements a small, finite, inspectable transition system with
+Instead, it implements a small, finitely specified transition system with
 explicit conservation and state-identity invariants. Every proposed
 transition is calculated without external side effects and must satisfy
 predefined requirements before its new logical state is committed.
@@ -62,7 +62,7 @@ new numbered canonical Turing machine, and NOT a replacement for DTM-22
 or TM-009. The project may later choose a separate machine identifier,
 but no such promotion is claimed by this draft.
 
-2. FINITE PROTECTED STATE
+2. FINITELY STRUCTURED PROTECTED STATE
 
 Define a committed logical state
 
@@ -77,7 +77,9 @@ phases are indexed 0,1,2 and can be reconstructed as
 
     L_i(S) = (w,i,t,c_i), i in {0,1,2}.
 
-A state is VALID precisely when:
+The representation has a fixed number of components, but the revision
+number is unbounded; thus the full transition system is not a finite-
+state automaton. A state is VALID precisely when:
 
     V(S) =
        (w = 22)
