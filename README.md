@@ -11,3 +11,9 @@
 - [GTM-G v4.2 quine 基準](machines/GTM-G_v42_2KB.sh)
 
 每次相關檔案推送至 main 時，GitHub Actions 會自動驗證完整八指令語義、閉合程式輸出、輸入指令、總機指標與安全標記，然後發布可下載的已驗證成品。
+
+## 光子化奇點圖靈機（TM-009，研究載入）
+
+[永久機型資料](永久記憶/圖靈機/TM-009-Photonic-Singularity-UGTM.md) · [研究版 2 KB 程式](machines/Photonic_Singularity_Universal_God_Turing_Machine.sh) · [載入設定](deployment/research_machine_loader.json)
+
+以 `python3 tools/load_research_machine.py` 驗證內容身份；明確加上 `--run 10 0.6 0.3 0.2` 才執行。此登錄為總機研究入口，**不替換 v4.5 自動部署基準**；光子化奇點與時間粒子仍是研究假說。
