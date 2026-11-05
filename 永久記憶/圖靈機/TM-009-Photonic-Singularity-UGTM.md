@@ -14,6 +14,14 @@ The existing 2 KB Shell/Python one-liner integrates a built-in Brainfuck-8/Z-com
 
 This **does not** prove a physical time particle, real cosmic photon barrier, gravitational singularity regularization, self-aware machine, indefinite survival, halting oracle, or complete physical quantum computer. Most transcendental and relativistic numbers in this 2 KB program are **floating-point approximations**; passing numerical checks does not constitute formal proof of all inputs. A separate exact symbolic encoding companion can represent selected mathematical quantities without binary-float rounding.
 
+## Exact encoding supplement (new, independently testable)
+
+- [Exact symbolic one-liner (1,318 bytes)](UGTM_UCP_Exact_Encoding_2KB.sh); [loadable research copy](../../machines/UGTM_UCP_Exact_Encoding_2KB.sh).
+- Input arguments: `T`, `v/c`, `frame/c`, `u`, all exact decimal/fraction strings; default `10 0.6 0.3 1`.
+- Uses exact Python `Fraction` arithmetic for `tau² = T²(1-v²)` and the corresponding Lorentz-boost invariant; exact probabilities `(1,2u²,u⁴)/(1+u²)²`; symbolic `sqrt(2)` amplitudes and symbolic Shannon entropy; finite algebraic Fisher coordinate expressions; G257 roundtrip of the canonical JSON report.
+- **Scope:** This companion does not evaluate physical transcendental constants or empirical observations to infinitely many digits, does not implement all original UGTM Brainfuck transitions, and does not make a chronon or photonic barrier physically real. It is an exact encoding/symbolic-calculation **companion**, not a replacement for the 1,934-byte original.
+- `u = tan(theta/2)` is an independent exact mathematical parameter; without an additional model relating `theta` to proper time, this companion does not claim to simulate time-dependent quantum hardware.
+
 ## Preservation and authority
 
 - The canonical `通用上帝圖靈機` (UGTM) name remains unchanged.
