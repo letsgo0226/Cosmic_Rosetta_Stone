@@ -7,6 +7,8 @@ on:
       - "machines/Photonic_Singularity_Universal_God_Turing_Machine.sh"
       - "machines/UGTM_UCP_Exact_Encoding_2KB.sh"
       - "永久記憶/圖靈機/Photonic_Singularity_Universal_God_Turing_Machine.sh"
+      - "永久記憶/圖靈機/UGTM_UCP_Exact_Encoding_2KB.sh"
+      - "永久記憶/圖靈機/TM-009-Photonic-Singularity-UGTM.md"
       - "deployment/research_machine_loader.json"
       - "tools/load_research_machine.py"
       - "tools/test_photonic_exact.py"
