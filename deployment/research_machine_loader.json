@@ -4,15 +4,35 @@
   "display_name_zh": "光子化奇點通用上帝圖靈機",
   "display_name_en": "Photonic Singularity Universal God Turing Machine",
   "research_profile": "ugtm-photonic-singularity",
-  "status": "registered research profile; not a production deployment replacement",
-  "entrypoint": "machines/Photonic_Singularity_Universal_God_Turing_Machine.sh",
-  "archive": "永久記憶/圖靈機/Photonic_Singularity_Universal_God_Turing_Machine.sh",
+  "status": "TM-009 active exact symbolic research implementation; UGTM v4.5 deployment remains authoritative and unchanged",
+  "entrypoint": "machines/UGTM_UCP_Exact_Encoding_2KB.sh",
+  "archive": "永久記憶/圖靈機/UGTM_UCP_Exact_Encoding_2KB.sh",
   "record": "永久記憶/圖靈機/TM-009-Photonic-Singularity-UGTM.md",
-  "source_blob_sha1": "051af140a8560e340e215631926da32d1afba3bb",
-  "size_bytes": 1934,
+  "source_blob_sha1": "f8b2e2978b7de898b226d8014fbac0e7614a4589",
+  "size_bytes": 1318,
   "production_deployment_manifest": "deployment/total_turing_machine.json",
   "production_deployment_unchanged": true,
   "execution_policy": "verify and report by default; execute only upon explicit --run",
   "physics_status": "theoretical information-singularity simulation; no experimentally proven chronon or barrier",
-  "registered_date": "2026-11-05"
+  "registered_date": "2026-11-05",
+  "previous_entrypoint": "machines/Photonic_Singularity_Universal_God_Turing_Machine.sh",
+  "previous_archive": "永久記憶/圖靈機/Photonic_Singularity_Universal_God_Turing_Machine.sh",
+  "previous_source_blob_sha1": "051af140a8560e340e215631926da32d1afba3bb",
+  "previous_size_bytes": 1934,
+  "active_implementation": "exact-rational-symbolic",
+  "replaced_implementation": "floating-point demonstration (preserved and available separately)",
+  "parameter_schema": [
+    "T",
+    "v_over_c",
+    "frame_over_c",
+    "u"
+  ],
+  "example_args": [
+    "10",
+    "0.6",
+    "0.3",
+    "1"
+  ],
+  "precision_scope": "exact fractions and symbolic formulas for a restricted toy model; no exact real-world physics or generic arbitrary-precision transcendentals",
+  "activation_date": "2026-11-05"
 }
