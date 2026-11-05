@@ -32,3 +32,15 @@ A new **side-effect-free experimental protection layer**, based on the existing 
 - [Protective CI workflow](.github/workflows/verify-dtm-protection.yml)
 
 Run `python3 tools/dtm_protective_core.py --fault drop --restore` to observe a denied invalid proposal and a logical checkpoint restoration. Run `python3 tools/test_dtm_protective_core.py` for tests. **The project does not claim actual time travel, consciousness preservation, physical shielding, or perfect security.** The original TM-003, TM-009, UGTM v4.5, and Schumann baselines are unchanged.
+
+## DTM-22 guarded-transition formal verification (2026-11-06)
+
+The independent DTM-22 protective module has passed an abstract **Z3 QF_LIA** safety verification over unbounded mathematical integers: **13 UNSAT safety-counterexample queries, 3 SAT valid-transition witnesses, and 1 SAT counterexample for a deliberately weakened rule**. A separate set of **13 Python regression tests** also passed in [GitHub Actions](https://github.com/letsgo0226/Cosmic_Rosetta_Stone/actions/runs/42065274503).
+
+- [Formal verification technical report (.txt)](research/DTM22_Formal_Verification.txt)
+- [Machine-checkable SMT model in Python](tools/prove_dtm_invariants.py)
+- [Versioned observed results summary](docs/dtm22_formal_evidence.json)
+- [Protected state machine](tools/dtm_protective_core.py)
+- [Proof workflow](.github/workflows/verify-dtm-protection.yml)
+
+The proof concerns the stated **abstract logical transition model** and its state invariants. It is **not** a formally verified refinement of the entire Python interpreter, a cryptographic authentication proof, a quantum/physical safety guarantee, or a deployment authorization. TM-003, TM-007, TM-009 and the UGTM v4.5 canonical deployment remain distinct and unchanged.
