@@ -51,7 +51,7 @@ UGTM v4.5 已驗證閉合程式輸出 S，並驗證逗號輸入程式在輸入 A
 - [永久機型記錄](永久記憶/圖靈機/TM-009-Photonic-Singularity-UGTM.md) · [研究載入指標](deployment/research_machine_loader.json) · [驗證載入器](tools/load_research_machine.py)。
 - 以 `python3 tools/load_research_machine.py` 只讀驗證；加入 `--run` 才進行明示執行。
 - **不變更** UGTM v4.5 的正式自動部署指標與其他已登錄基準；TM-008 歷史編號保留。
-- 2 KB 程式的相對論和量子數值運算使用浮點數。哥德爾編碼可無損保存指定資料，不代表物理模型或新時間粒子得到證實。
+- 2 KB 程式的相對論和量子數值運算使用浮點數；另增設 [1,318 bytes 精確有理數／符號編碼附件](machines/UGTM_UCP_Exact_Encoding_2KB.sh)，保留根式與對數為符號形式。哥德爾編碼可無損保存指定資料，不代表物理模型或新時間粒子得到證實。
 
 ## 安全政策
 
