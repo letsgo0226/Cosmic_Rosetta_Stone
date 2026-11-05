@@ -55,6 +55,13 @@ UGTM v4.5 已驗證閉合程式輸出 S，並驗證逗號輸入程式在輸入 A
 - 精確版於指定**有理數參數及符號表示**範圍內不使用浮點捨入，但並不完整實作 Brainfuck-8、光子實驗或可計算所有物理現象。
 - 舊舒曼機基準、ATGC 模組、TM-001 至 TM-007 均保留；TM-008 暫時保留歷史編號。
 
+## TM-003 保護核心之形式驗證附件（非新機型）
+
+- [獨立保護模組](tools/dtm_protective_core.py) · [Z3 形式驗證程式](tools/prove_dtm_invariants.py) · [技術報告 TXT](research/DTM22_Formal_Verification.txt) · [執行證據](docs/dtm22_formal_evidence.json)。
+- 依指定 QF_LIA 模型，GitHub Actions 成功核對 **13 個無反例安全條件、3 個合法轉移見證與 1 個弱化保護規則的反例**；另通過 13 項 Python 回歸測試。
+- 定理只涵蓋抽象受控狀態轉移，不代表整個 Python 實作已形式證明、SHA 鏈具備抗攻擊者重新簽署能力、主體同一性已獲證明，或現實中的保護效果成立。
+- 本次不建立新 TM 編號，不修改 TM-003、TM-009、終極舒曼機或 UGTM v4.5 基準。
+
 ## 安全政策
 
 - 自動化只執行驗證、封裝與成品發布。
