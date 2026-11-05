@@ -12,8 +12,12 @@
 
 每次相關檔案推送至 main 時，GitHub Actions 會自動驗證完整八指令語義、閉合程式輸出、輸入指令、總機指標與安全標記，然後發布可下載的已驗證成品。
 
-## 光子化奇點圖靈機（TM-009，研究載入）
+## 光子化奇點圖靈機（TM-009，精確版研究載入）
 
-[永久機型資料](永久記憶/圖靈機/TM-009-Photonic-Singularity-UGTM.md) · [研究版 2 KB 程式](machines/Photonic_Singularity_Universal_God_Turing_Machine.sh) · [載入設定](deployment/research_machine_loader.json)
+**現行 TM-009 精確編碼研究入口：** [1,318-byte UGTM–UCP Exact Encoding](machines/UGTM_UCP_Exact_Encoding_2KB.sh)。它以精確的有理數和符號表達式追蹤固有時間平方、三態機率、資訊熵表達式及 G257 可逆編碼。
 
-以 `python3 tools/load_research_machine.py` 驗證內容身份；明確加上 `--run 10 0.6 0.3 0.2` 才執行。另有 [1,318 bytes 的精確有理數／符號編碼附件](machines/UGTM_UCP_Exact_Encoding_2KB.sh)，用於減少數學表示的浮點捨入。此登錄為總機研究入口，**不替換 v4.5 自動部署基準**；光子化奇點與時間粒子仍是研究假說。
+**浮點歷史研究原型：** [1,934-byte Photonic Singularity UGTM](machines/Photonic_Singularity_Universal_God_Turing_Machine.sh)；兩份程式均已另外保存於 `永久記憶/圖靈機/`。
+
+[TM-009 永久機型紀錄](永久記憶/圖靈機/TM-009-Photonic-Singularity-UGTM.md) · [研究載入指標](deployment/research_machine_loader.json) · [精確驗證測試](tools/test_photonic_exact.py)
+
+在儲存庫根目錄執行 `python3 tools/load_research_machine.py` 僅核對身份；`python3 tools/load_research_machine.py --run 10 0.6 0.3 1` 才實際執行精確版本（最後參數為 `u`，非舊版的 `omega`）。**正式總圖靈機 UGTM v4.5 及其既有自動部署基準不變**。這些模型不證明時間粒子或真正的光子化奇點。
