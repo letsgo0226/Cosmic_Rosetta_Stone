@@ -1,59 +1,108 @@
 #!/usr/bin/env python3
-"""Deterministic exact-encoding tests for the UGTM-UCP 2 KB companion.
+"""Regression tests for TM-009's exact-symbolic active research entry.
 
-These tests verify specified mathematical identities, not empirical physics.
+These checks establish specific finite rational identities and byte-identity,
+not numerical certainty about physics or a general halting procedure.
 """
 from pathlib import Path
-from fractions import Fraction
-import subprocess
-import json
+from fractions import Fraction as F
 import hashlib
+import json
+import math
+import subprocess
 
 ROOT = Path(__file__).resolve().parents[1]
-EXACT = ROOT / 'machines/UGTM_UCP_Exact_Encoding_2KB.sh'
-PHOTONIC = ROOT / 'machines/Photonic_Singularity_Universal_God_Turing_Machine.sh'
-ARCHIVE = ROOT / '永久記憶/圖靈機/Photonic_Singularity_Universal_God_Turing_Machine.sh'
 LOADER = ROOT / 'tools/load_research_machine.py'
+EXACT = ROOT / 'machines/UGTM_UCP_Exact_Encoding_2KB.sh'
+EXACT_ARCHIVE = ROOT / '永久記憶/圖靈機/UGTM_UCP_Exact_Encoding_2KB.sh'
+LEGACY = ROOT / 'machines/Photonic_Singularity_Universal_God_Turing_Machine.sh'
+LEGACY_ARCHIVE = ROOT / '永久記憶/圖靈機/Photonic_Singularity_Universal_God_Turing_Machine.sh'
+MANIFEST = ROOT / 'deployment/research_machine_loader.json'
+
+CASES = [
+    ('10', '.6', '.3', '1'),
+    ('10', '-.6', '.3', '1/2'),
+    ('0', '0', '0', '0'),
+    ('1', '.9', '-.7', '2'),
+    ('13/2', '-1/2', '1/3', '3/4'),
+    ('3', '0', '.3', '.4'),
+    ('7/3', '-1/5', '1/8', '5/7'),
+    ('100', '99/100', '-99/100', '1/11'),
+    ('1', '0', '0', '1'),
+    ('0', '0', '0', '1/3'),
+]
 
 
-def execute(*args):
-    data = subprocess.check_output(['bash', str(EXACT), *args], cwd=ROOT, text=True, timeout=12)
-    return json.loads(data)
+def git_blob_sha(data):
+    return hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest()
+
+
+def verify_registry():
+    manifest = json.loads(MANIFEST.read_text(encoding='utf-8'))
+    assert manifest['registry_id'] == 'TM-009'
+    assert manifest['entrypoint'] == 'machines/UGTM_UCP_Exact_Encoding_2KB.sh'
+    assert manifest['archive'] == '永久記憶/圖靈機/UGTM_UCP_Exact_Encoding_2KB.sh'
+    assert manifest['previous_entrypoint'] == 'machines/Photonic_Singularity_Universal_God_Turing_Machine.sh'
+    assert manifest['production_deployment_unchanged'] is True
+    for file, archive, size, sha in (
+        (EXACT, EXACT_ARCHIVE, 1318, 'f8b2e2978b7de898b226d8014fbac0e7614a4589'),
+        (LEGACY, LEGACY_ARCHIVE, 1934, '051af140a8560e340e215631926da32d1afba3bb'),
+    ):
+        b = file.read_bytes()
+        assert len(b) == size and git_blob_sha(b) == sha
+        assert archive.read_bytes() == b
+    view = json.loads(subprocess.check_output(
+        ['python3', str(LOADER)], text=True, cwd=ROOT, timeout=15
+    ))
+    assert view['verified'] is True
+    assert view['execution'] == 'not_run'
+    assert view['entrypoint'] == manifest['entrypoint']
+
+
+def verify_case(args):
+    raw = subprocess.check_output(['bash', str(EXACT), *args], text=True, cwd=ROOT, timeout=15)
+    obj = json.loads(raw)
+    T, v, f, u = map(F, args)
+    q = T*T*(1-v*v)
+    prob = [F(1,1)/(1+u*u)**2, 2*u*u/(1+u*u)**2, u**4/(1+u*u)**2]
+    assert obj['tau_squared'] == obj['boost_tau_squared'] == str(q)
+    n, d = math.isqrt(q.numerator), math.isqrt(q.denominator)
+    tau = str(F(n,d)) if n*n == q.numerator and d*d == q.denominator else 'sqrt('+str(q)+')'
+    assert obj['proper_time'] == tau
+    assert list(map(F, obj['P'])) == prob and sum(prob) == 1
+    assert obj['FI_u_interior_limit'] == str(8/(1+u*u)**2)
+    assert obj['FI_theta_interior_limit'] == '2'
+    assert obj['U3'] is True and obj['physical_chronon_proven'] is False
+    assert obj['H_bits'] == ('0' if u == 0 else '3/2') if u in (F(0), F(1)) else 'log2(' in obj['H_bits']
+    copy = dict(obj)
+    supplied = int(copy.pop('godel257'))
+    encoded = json.dumps(copy, sort_keys=True, separators=(',', ':')).encode()
+    num = 1
+    for value in encoded:
+        num = num*257+value+1
+    assert supplied == num
 
 
 def main():
-    assert len(EXACT.read_bytes()) == 1318
-    assert len(PHOTONIC.read_bytes()) == 1934
-    assert PHOTONIC.read_bytes() == ARCHIVE.read_bytes()
-    blob = PHOTONIC.read_bytes()
-    sha = hashlib.sha1(b'blob ' + str(len(blob)).encode() + b'\0' + blob).hexdigest()
-    assert sha == '051af140a8560e340e215631926da32d1afba3bb'
-    message = json.loads(subprocess.check_output(['python3', str(LOADER)], cwd=ROOT, text=True, timeout=12))
-    assert message['verified'] and message['execution'] == 'not_run'
-
-    cases = [
-        (('10', '.6', '.3', '1'), '64', '8', ['1/4', '1/2', '1/4'], '3/2', '2'),
-        (('10', '-.6', '.3', '1/2'), '64', '8', ['16/25', '8/25', '1/25'], None, '128/25'),
-        (('0', '0', '0', '0'), '0', '0', ['1', '0', '0'], '0', '8'),
-        (('1', '.9', '-.7', '2'), '19/100', 'sqrt(19/100)', ['1/25', '8/25', '16/25'], None, '8/25'),
-        (('13/2', '-1/2', '1/3', '3/4'), '507/16', 'sqrt(507/16)', ['256/625', '288/625', '81/625'], None, '2048/625'),
-    ]
-    for args, tau2, tau, p, h, fi in cases:
-        r = execute(*args)
-        assert r['tau_squared'] == tau2 == r['boost_tau_squared']
-        assert r['proper_time'] == tau
-        assert r['P'] == p
-        assert sum(Fraction(x) for x in r['P']) == 1
-        assert r['FI_u_interior_limit'] == fi
-        assert r['FI_theta_interior_limit'] == '2'
-        assert r['U3'] is True
-        assert r['physical_chronon_proven'] is False
-        if h is not None:
-            assert r['H_bits'] == h
-        else:
-            assert 'log2' in r['H_bits']
-        assert r['godel257'].isdigit()
-    print('PASS: loader integrity, archive identity, and 5 exact arithmetic cases')
+    verify_registry()
+    for args in CASES:
+        verify_case(args)
+    active = json.loads(subprocess.check_output(
+        ['python3', str(LOADER), '--run', '10', '0.6', '0.3', '1'],
+        text=True, cwd=ROOT, timeout=15
+    ))
+    assert active['proper_time'] == '8'
+    assert active['P'] == ['1/4', '1/2', '1/4']
+    for args in (
+        ('-1', '0', '0', '1'),
+        ('1', '1', '0', '1'),
+        ('1', '0', '-1', '1'),
+        ('1', '0', '0', '-1'),
+    ):
+        result = subprocess.run(['bash', str(EXACT), *args], cwd=ROOT,
+                                capture_output=True, timeout=15)
+        assert result.returncode != 0, args
+    print('PASS: 10 exact cases; 4 invalid-input checks; active loader; two archived identities')
 
 
 if __name__ == '__main__':
