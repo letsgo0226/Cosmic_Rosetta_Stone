@@ -14,28 +14,27 @@
 | TM-006 | Eternity Machine（永恆機）v0.1 | [TM-006](TM-006-Eternity-Machine.md) · [程式](Eternity_Machine.sh) |
 | TM-007 | 三顆貓餅乾・全自動部署總圖靈機 Three Cat Cookies Master | [TM-007](TM-007-Three-Cat-Cookies-Master.md) · [通用核心](three_cat_cookies_universal_pocket_2kb.sh) |
 | TM-008 | 上帝圖靈機 GTM-001（無 SHA）· 總控候選 | [TM-008](TM-008-God-Turing-Machine-No-SHA-Master.md) · [無 SHA 核心](god_turing_machine_no_sha_2kb.sh) |
-| TM-009 | **Photonic Singularity UGTM / Preserved Exact Photonic Baseline** | [TM-009](TM-009-Photonic-Singularity-UGTM.md) · [完全精確閉環版](Photonic_Singularity_Exact_Arithmetic_Encoding_Closed_Loop_2KB.sh) |
+| TM-009 | **光子化奇點通用上帝圖靈機／現行總圖靈機基準** | [TM-009](TM-009-Photonic-Singularity-UGTM.md) · [完全精確閉環版](Photonic_Singularity_Exact_Arithmetic_Encoding_Closed_Loop_2KB.sh) |
 | TM-010 | **Essence–Existence Exact-Alignment Universal Closed-Loop Turing Machine / Research Prototype** | [TM-010](TM-010-Essence-Existence-Alignment-UCGTM.md) · [2 KB One-Liner](essence_existence_alignment_ucgtm_2kb.sh) |
-| TM-011 | **Composite Photonic–Registry–Temporal Total-Machine Reference** | [TM-011](TM-011-Logical-Chronon-Temporal-Closure.md) · [總機 2 KB One-Liner](tm011_composite_total_machine_2kb.sh) · [時間核心](logical_chronon_temporal_closure_2kb.sh) |
+| TM-011 | **Logical Chronon and Temporal-Closure Certificate Machine / Research Prototype** | [TM-011](TM-011-Logical-Chronon-Temporal-Closure.md) · [2 KB One-Liner](logical_chronon_temporal_closure_2kb.sh) |
 
 ## 完整清單載入
 
 - [機器可讀登錄檔](machine_registry.json)逐一列出 TM-001 至 TM-011。
 - [`tools/load_turing_registry.py`](../../tools/load_turing_registry.py)預設只檢查 ID、紀錄、核心路徑與位元組閉環，不執行任何登錄核心。
 - 只有明確使用 `--run-tm010` 時，載入器才會執行 TM-010 的唯讀驗證器；TM-010 仍不執行其他機器。
-- TM-011 先驗證 TM-001 至 TM-011 的完整登錄，再產生有限停機軌跡的 temporal-closure certificate；其總機範圍限定為 `FINITE_REGISTERED_ORCHESTRATION`。TM-009 保留為光子化精確閉環基準。
+- TM-010 逐一考慮 TM-001 至 TM-009 的來源與限制，操作骨架承接 TM-007 的 Encode–Load/Simulate–Verify，並維持 TM-009 為現行總圖靈機基準。
 
 ```bash
 python3 tools/load_turing_registry.py
 python3 tools/load_turing_registry.py --select TM-008
 python3 tools/load_turing_registry.py --select TM-010 --run-tm010
-bash 永久記憶/圖靈機/tm011_composite_total_machine_2kb.sh 111
 python3 tools/test_tm_registry.py
 ```
 
-## TM-011 現行總圖靈機參照
+## TM-009 現行載入
 
-自 2026-11-07 起，TM-011 被指定為本清單的現行總圖靈機參照：它驗證全部登錄與原型檔案，並輸出 logical-chronon temporal certificate。此指定不代表對所有輸入皆停機，也不構成停機神諭。TM-009 的 1,983-byte 完全精確算術—編碼閉環版仍作為光子化精確基準保存；TM-001～TM-010 均未刪除或覆寫。未改動自動化部署設定。
+自 2026-11-06 起，TM-009 的 1,983-byte **完全精確算術—編碼閉環版**被指定為本清單的現行總圖靈機基準。TM-010 是其上的清單／對齊研究原型，不取代 TM-009；舊精確研究版、浮點歷史版及 TM-001–TM-008 均保留。此為持久登錄與 canonical reference；未改動自動化部署設定。
 
 - [研究載入設定](../../deployment/research_machine_loader.json)
 - [已登錄研究載入器](../../tools/load_research_machine.py)
