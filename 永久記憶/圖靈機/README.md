@@ -15,7 +15,7 @@
 | TM-007 | 三顆貓餅乾・全自動部署總圖靈機 Three Cat Cookies Master | [TM-007](TM-007-Three-Cat-Cookies-Master.md) · [通用核心](three_cat_cookies_universal_pocket_2kb.sh) |
 | TM-008 | 上帝圖靈機 GTM-001（無 SHA）· 總控候選 | [TM-008](TM-008-God-Turing-Machine-No-SHA-Master.md) · [無 SHA 核心](god_turing_machine_no_sha_2kb.sh) |
 | TM-009 | **光子化奇點通用上帝圖靈機／現行總圖靈機基準** | [TM-009](TM-009-Photonic-Singularity-UGTM.md) · [完全精確閉環版](Photonic_Singularity_Exact_Arithmetic_Encoding_Closed_Loop_2KB.sh) |
-| TM-010 | **本質—實存精確對齊通用閉環圖靈機／研究原型** | [TM-010](TM-010-Essence-Existence-Alignment-UCGTM.md) · [2 KB One-Liner](essence_existence_alignment_ucgtm_2kb.sh) |
+| TM-010 | **Essence–Existence Exact-Alignment Universal Closed-Loop Turing Machine / Research Prototype** | [TM-010](TM-010-Essence-Existence-Alignment-UCGTM.md) · [2 KB One-Liner](essence_existence_alignment_ucgtm_2kb.sh) |
 
 ## 完整清單載入
 
