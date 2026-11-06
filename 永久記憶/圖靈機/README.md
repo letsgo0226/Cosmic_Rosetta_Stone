@@ -16,10 +16,11 @@
 | TM-008 | 上帝圖靈機 GTM-001（無 SHA）· 總控候選 | [TM-008](TM-008-God-Turing-Machine-No-SHA-Master.md) · [無 SHA 核心](god_turing_machine_no_sha_2kb.sh) |
 | TM-009 | **光子化奇點通用上帝圖靈機／現行總圖靈機基準** | [TM-009](TM-009-Photonic-Singularity-UGTM.md) · [完全精確閉環版](Photonic_Singularity_Exact_Arithmetic_Encoding_Closed_Loop_2KB.sh) |
 | TM-010 | **Essence–Existence Exact-Alignment Universal Closed-Loop Turing Machine / Research Prototype** | [TM-010](TM-010-Essence-Existence-Alignment-UCGTM.md) · [2 KB One-Liner](essence_existence_alignment_ucgtm_2kb.sh) |
+| TM-011 | **Logical Chronon and Temporal-Closure Certificate Machine / Research Prototype** | [TM-011](TM-011-Logical-Chronon-Temporal-Closure.md) · [2 KB One-Liner](logical_chronon_temporal_closure_2kb.sh) |
 
 ## 完整清單載入
 
-- [機器可讀登錄檔](machine_registry.json)逐一列出 TM-001 至 TM-010。
+- [機器可讀登錄檔](machine_registry.json)逐一列出 TM-001 至 TM-011。
 - [`tools/load_turing_registry.py`](../../tools/load_turing_registry.py)預設只檢查 ID、紀錄、核心路徑與位元組閉環，不執行任何登錄核心。
 - 只有明確使用 `--run-tm010` 時，載入器才會執行 TM-010 的唯讀驗證器；TM-010 仍不執行其他機器。
 - TM-010 逐一考慮 TM-001 至 TM-009 的來源與限制，操作骨架承接 TM-007 的 Encode–Load/Simulate–Verify，並維持 TM-009 為現行總圖靈機基準。
