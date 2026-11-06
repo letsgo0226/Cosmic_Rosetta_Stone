@@ -16,19 +16,22 @@
 | TM-008 | 上帝圖靈機 GTM-001（無 SHA）· 總控候選 | [TM-008](TM-008-God-Turing-Machine-No-SHA-Master.md) · [無 SHA 核心](god_turing_machine_no_sha_2kb.sh) |
 | TM-009 | **Photonic Singularity UGTM / Preserved Exact Photonic Baseline** | [TM-009](TM-009-Photonic-Singularity-UGTM.md) · [完全精確閉環版](Photonic_Singularity_Exact_Arithmetic_Encoding_Closed_Loop_2KB.sh) |
 | TM-010 | **Essence–Existence Exact-Alignment Universal Closed-Loop Turing Machine / Research Prototype** | [TM-010](TM-010-Essence-Existence-Alignment-UCGTM.md) · [2 KB One-Liner](essence_existence_alignment_ucgtm_2kb.sh) |
-| TM-011 | **Logical Chronon and Temporal-Closure Certificate Machine / Current Total-Machine Reference** | [TM-011](TM-011-Logical-Chronon-Temporal-Closure.md) · [2 KB One-Liner](logical_chronon_temporal_closure_2kb.sh) |
+| TM-011 | **Logical Chronon and Temporal-Closure Certificate Machine / Current Temporal Reference** | [TM-011](TM-011-Logical-Chronon-Temporal-Closure.md) · [2 KB One-Liner](logical_chronon_temporal_closure_2kb.sh) |
+| TM-012 | **Partial Universal Interpreter with Certified Total Temporal Subroutine / Master Architecture Prototype** | [TM-012](TM-012-Partial-Universal-With-Total-Subroutine.md) · [2 KB One-Liner](tm012_partial_universal_total_subroutine_2kb.sh) |
 
 ## 完整清單載入
 
-- [機器可讀登錄檔](machine_registry.json)逐一列出 TM-001 至 TM-011。
+- [機器可讀登錄檔](machine_registry.json)逐一列出 TM-001 至 TM-012。
 - [`tools/load_turing_registry.py`](../../tools/load_turing_registry.py)預設只檢查 ID、紀錄、核心路徑與位元組閉環，不執行任何登錄核心。
 - 只有明確使用 `--run-tm010` 時，載入器才會執行 TM-010 的唯讀驗證器；TM-010 仍不執行其他機器。
-- TM-011 以 logical chronon 與 temporal closure 作為所有登錄機器的共同時間參照，並在 `TEMPORAL_REFERENCE_ONLY` 範圍內被指定為現行總機；此指定不表示已合併各機器功能。TM-009 保留為光子化精確閉環基準。
+- TM-011 仍是 `TEMPORAL_REFERENCE_ONLY` 的共同時間參照。TM-012 是 `PARTIAL_UNIVERSAL_WITH_CERTIFIED_TOTAL_SUBROUTINE` 的總機架構原型；它明確不是 Total Universal TM。TM-009 保留為光子化精確閉環基準。
 
 ```bash
 python3 tools/load_turing_registry.py
 python3 tools/load_turing_registry.py --select TM-008
 python3 tools/load_turing_registry.py --select TM-010 --run-tm010
+bash 永久記憶/圖靈機/tm012_partial_universal_total_subroutine_2kb.sh total 111
+bash 永久記憶/圖靈機/tm012_partial_universal_total_subroutine_2kb.sh bf '++++++++[>++++++++++<-]>+++.'
 python3 tools/test_tm_registry.py
 ```
 
